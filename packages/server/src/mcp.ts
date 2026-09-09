@@ -419,7 +419,7 @@ export interface McpRegistrationOptions {
 
 export function registerMcp(app: Hono, options: McpRegistrationOptions = {}): void {
   const verifyAccessToken = options.verifyAccessToken ?? (async (token: string) => {
-    await resourceActions.verifyAccessToken(token, {
+    await resourceActions.verifyBearerToken(token, {
       verifyOptions: { audience: MCP_RESOURCE, issuer: OAUTH_ISSUER },
       jwksUrl: OAUTH_JWKS_URL,
     });
