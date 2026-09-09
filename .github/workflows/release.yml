@@ -53,7 +53,7 @@ jobs:
             libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --workspace @desk/app --workspace @desk/core
 
       - name: Security audit
         run: |
