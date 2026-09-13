@@ -96,10 +96,25 @@ if (!secret) {
 const isHttps = baseURL.startsWith("https:");
 
 // Canonical URI of the MCP resource server (RFC 8707). The OAuth AS only mints access
-// tokens whose audience is in `validAudiences` (below), and the MCP route verifies the
-// token's audience equals this — so a token minted for the web app can't be replayed at
-// /mcp and vice-versa. Exported so the MCP route + protected-resource metadata reuse it.
+// tokens for this configured resource, and the MCP route verifies that exact audience —
+// so a token minted for the web app can't be replayed at /mcp and vice-versa. Exported so
+// the MCP route + protected-resource metadata reuse it.
 export const MCP_RESOURCE = `${baseURL}/mcp`;
+
+// Better Auth 1.7 promotes OAuth audiences to persisted resources. This AS serves one
+// personal MCP resource, so every newly registered connector receives it by default.
+// Existing DCR clients predate the resource join table; keeping per-client enforcement
+// disabled preserves their access while authentication + user consent remain mandatory.
+export const oauthProviderOptions = {
+  loginPage: "/sign-in",
+  consentPage: "/oauth/consent",
+  allowDynamicClientRegistration: true,
+  allowUnauthenticatedClientRegistration: true,
+  resources: [MCP_RESOURCE],
+  enforcePerClientResources: false,
+  clientRegistrationDefaultResources: [MCP_RESOURCE],
+  clientRegistrationAllowedResources: [MCP_RESOURCE],
+};
 
 // The shipped desktop app's fixed Tauri origins. Always trusted: a browser can't forge these
 // and no cookie is scoped to them, so this doesn't widen the web tier's CSRF surface — and it
@@ -149,19 +164,10 @@ const authOptions = {
     // the "direct OAuth" front door the Claude.ai / ChatGPT custom-connector UIs require:
     // it serves the discovery metadata, Dynamic Client Registration, auth-code + PKCE(S256),
     // consent, and the token endpoint. The MCP front door sits behind it.
-    oauthProvider({
-      loginPage: "/sign-in",
-      consentPage: "/oauth/consent",
-      // Claude/ChatGPT are unknown clients, so they MUST self-register (RFC 7591).
-      // Unauthenticated DCR mints PKCE-protected public clients; the human still
-      // authenticates at the authorize step, so an open /register isn't an auth bypass.
-      allowDynamicClientRegistration: true,
-      allowUnauthenticatedClientRegistration: true,
-      // Only mint tokens whose audience is the MCP resource (RFC 8707). baseURL stays valid
-      // for the AS's own userinfo. Without this the token request fails "requested resource
-      // invalid" the moment a client sends the spec-required `resource` parameter.
-      validAudiences: [baseURL, MCP_RESOURCE],
-    }),
+    // Claude/ChatGPT are unknown clients, so they self-register through DCR. Public-client
+    // PKCE plus the human login/consent step keeps unauthenticated registration from being
+    // an authorization bypass.
+    oauthProvider(oauthProviderOptions),
   ],
   // Pin the cookie posture explicitly so an upstream default change can't silently
   // widen it. SameSite=Lax also neutralizes CSRF on the same-origin /api/desk POSTs;
