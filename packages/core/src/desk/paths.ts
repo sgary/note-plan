@@ -25,7 +25,7 @@
 
 import type { ContentScope } from "../types";
 import { getDeskPath, joinPath } from "./env";
-import { PATH_SEGMENTS, SPECIAL_DIRS, isUnassigned, isCapture } from "./constants";
+import { PATH_SEGMENTS, SPECIAL_DIRS, isUnassigned, isCapture, WORKSPACE_LEVEL_PROJECT_ID } from "./constants";
 import { getHomeWorkspaceId } from "./workspaces";
 
 // =============================================================================
@@ -74,6 +74,11 @@ export async function getProjectPath(
 
   if (isCapture(projectId)) {
     return joinPath(workspacePath, SPECIAL_DIRS.CAPTURE);
+  }
+
+  // Workspace-level records (docs, meetings) live at the workspace root, not under projects/.
+  if (projectId === WORKSPACE_LEVEL_PROJECT_ID) {
+    return workspacePath;
   }
 
   return joinPath(workspacePath, PATH_SEGMENTS.PROJECTS, projectId);
