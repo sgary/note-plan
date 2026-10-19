@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Settings,
   CheckSquare,
+  Building2,
   Calendar,
   CalendarDays,
   Home,
@@ -25,6 +26,7 @@ import { countTreeFiles } from "@/lib/tree-count";
 import { useProjectSummaries } from "@/stores/projects";
 import { useProjectSelectionStore } from "@/stores/project-selection";
 import { isActiveStatus } from "@/lib/task-status";
+import { isCompanyMeeting } from "@/lib/meeting-scope";
 import { SectionLabel } from "@/components/patterns";
 import { WorkspaceSelector } from "./workspace-selector";
 import { useTabStore } from "@/stores/tabs";
@@ -61,7 +63,8 @@ export function Sidebar({ width, isCollapsed, isDragging }: SidebarProps) {
 
   const activeTaskCount = tasks.filter((t) => isActiveStatus(t.status)).length;
   const totalFiles = useMemo(() => countTreeFiles(overviewTree), [overviewTree]);
-  const meetingCount = meetings.length;
+  const companyMeetingCount = meetings.filter(isCompanyMeeting).length;
+  const projectMeetingCount = meetings.length - companyMeetingCount;
   const projectCount = projects.length;
 
   const setActiveTab = useTabStore((s) => s.setActiveTab);
@@ -119,7 +122,8 @@ export function Sidebar({ width, isCollapsed, isDragging }: SidebarProps) {
           <div className="space-y-0.5">
             <SidebarNavRow to="/tasks" label={t("nav.sidebar.tasks")} icon={CheckSquare} active={pathname === "/tasks"} collapsed={collapsed} role="global" count={activeTaskCount} onClick={switchToDesk} />
             <SidebarNavRow to="/docs" label={t("nav.sidebar.docs")} icon={FileText} active={pathname === "/docs"} collapsed={collapsed} role="global" count={totalFiles} onClick={switchToDesk} />
-            <SidebarNavRow to="/meetings" label={t("nav.sidebar.meetings")} icon={Calendar} active={pathname === "/meetings"} collapsed={collapsed} role="global" count={meetingCount} onClick={switchToDesk} />
+            <SidebarNavRow to="/company-meetings" label={t("nav.sidebar.companyMeetings")} icon={Building2} active={pathname === "/company-meetings"} collapsed={collapsed} role="global" count={companyMeetingCount} onClick={switchToDesk} />
+            <SidebarNavRow to="/meetings" label={t("nav.sidebar.meetings")} icon={Calendar} active={pathname === "/meetings"} collapsed={collapsed} role="global" count={projectMeetingCount} onClick={switchToDesk} />
           </div>
 
           <Divider />
