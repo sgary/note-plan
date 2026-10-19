@@ -66,11 +66,12 @@ project context resources. No static API key to manage — it's the standard OAu
 
 ## Server-side AI
 
-Add `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` to `.env` and the server maintains Smart Index
-summaries with no desktop app involved, so hosted web clients get the full Smart Index. Setting
-a key is your consent to send file previews to that provider. Provider and model selection
-come from the shared app settings (Settings → AI in any client); without a key everything
-still works, files just carry metadata without AI summaries.
+Add `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or `CUSTOM_API_KEY` to `.env` and the server
+maintains Smart Index summaries with no desktop app involved, so hosted web clients get the
+full Smart Index. Setting a key is your consent to send file previews to that provider.
+Provider and model selection come from the shared app settings (Settings → AI in any client);
+for the custom provider the base URL, model, and any extra request headers are set there too.
+Without a key everything still works, files just carry metadata without AI summaries.
 
 ## Use the desktop app against your server
 
@@ -83,7 +84,7 @@ For developing the client from source against a live server (`npm run tauri:dev`
 
 See [.env.example](.env.example) for the full list. Required: `BETTER_AUTH_SECRET`. For
 production also set `DESK_PUBLIC_URL`. Optional: `DESK_DATA_DIR`, `DESK_PORT`,
-`DESK_TRUSTED_ORIGINS`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, and
+`DESK_TRUSTED_ORIGINS`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `CUSTOM_API_KEY`, and
 `DESK_BUILD_COMMIT` (source revision metadata; deployment scripts should set it to
 `git rev-parse HEAD`). `.env` files, private keys, ignored host configs, local docs,
 and generated artifacts are excluded from the Docker build context.

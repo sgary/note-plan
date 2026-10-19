@@ -31,6 +31,7 @@ services:
       # operator's consent to send file previews to that provider.
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      CUSTOM_API_KEY: "${CUSTOM_API_KEY:-}"
       PORT: "8787"
       # Optional extra trusted origins (comma-separated), e.g. to log in from a native
       # `npm run tauri:dev` client. Blank in normal use.
