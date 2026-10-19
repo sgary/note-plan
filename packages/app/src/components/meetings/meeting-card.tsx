@@ -1,8 +1,8 @@
 
 import { Calendar, ChevronRight } from "lucide-react";
-import { format, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { formatLocaleDate } from "@/lib/i18n/format";
 import type { Meeting } from "@desk/core/types";
 
 interface MeetingCardProps {
@@ -12,12 +12,7 @@ interface MeetingCardProps {
 }
 
 function formatMeetingDate(dateStr: string): string {
-  try {
-    const date = parseISO(dateStr);
-    return format(date, "EEE, MMM d");
-  } catch {
-    return dateStr;
-  }
+  return formatLocaleDate(dateStr, { weekday: "short", day: "numeric", month: "short" });
 }
 
 export function MeetingCard({ meeting, onClick, isLatest }: MeetingCardProps) {

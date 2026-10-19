@@ -24,10 +24,13 @@ export function getWeekDays(monday: string, includeWeekends: boolean): string[] 
 }
 
 /**
- * Format a day name from an ISO date (e.g. "Mon", "Tue")
+ * Format a day name from an ISO date (e.g. "Mon", "周一").
+ * `locale` is a BCP-47 tag; core stays UI-agnostic, so the caller supplies it.
  */
-export function formatDayName(isoDate: string): string {
-  return format(parseISO(isoDate), "EEE");
+export function formatDayName(isoDate: string, locale?: string): string {
+  return new Intl.DateTimeFormat(locale ?? "en-US", { weekday: "short" }).format(
+    parseISO(isoDate),
+  );
 }
 
 /**
@@ -38,13 +41,23 @@ export function formatDayNumber(isoDate: string): string {
 }
 
 /**
- * Format a week range label (e.g. "23 Mar – 27 Mar 2026")
+ * Format a week range label (e.g. "23 Mar – 27 Mar 2026", "3月23日 – 3月27日 2026").
+ * Intl rather than a date-fns pattern: only Intl orders the parts correctly per language.
  */
-export function formatWeekRange(monday: string, includeWeekends: boolean): string {
+export function formatWeekRange(
+  monday: string,
+  includeWeekends: boolean,
+  locale?: string,
+): string {
   const start = parseISO(monday);
   const end = addDays(start, includeWeekends ? 6 : 4);
-  const startStr = format(start, "d MMM");
-  const endStr = format(end, "d MMM yyyy");
+  const tag = locale ?? "en-US";
+  const startStr = new Intl.DateTimeFormat(tag, { day: "numeric", month: "short" }).format(start);
+  const endStr = new Intl.DateTimeFormat(tag, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(end);
   return `${startStr} – ${endStr}`;
 }
 

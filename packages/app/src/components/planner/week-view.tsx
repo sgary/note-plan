@@ -45,6 +45,7 @@ import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { PageHeader } from "@/components/patterns";
 import { CalendarDays } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { localeTagFor } from "@/lib/i18n/format";
 
 /** Stable empty references — a week with no plan must not allocate on every render. */
 const NO_DAYS: Record<string, WorkspaceBlock[]> = {};
@@ -53,7 +54,7 @@ const NO_INTENTIONS: string[] = [];
 const NO_TASKS: ActiveTask[] = [];
 
 export function WeekView() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const plannerHydrated = usePlannerHydrated();
   const [currentMonday, setCurrentMonday] = useState(() =>
     getWeekMonday(new Date())
@@ -386,7 +387,7 @@ export function WeekView() {
                         : "text-muted-foreground"
                     )}
                   >
-                    {formatDayName(day)}
+                    {formatDayName(day, localeTagFor(i18n.language))}
                   </div>
                   <div
                     className={cn(

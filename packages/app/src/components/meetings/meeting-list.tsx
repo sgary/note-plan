@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MeetingCard } from "./meeting-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { format, parseISO } from "date-fns";
+import { formatLocaleDate } from "@/lib/i18n/format";
 import { compareDatesDesc, getScopedEntityKey } from "@desk/core";
 import type { Meeting } from "@desk/core/types";
 
@@ -40,7 +41,8 @@ function groupMeetingsByMonth(meetings: Meeting[], noDateLabel: string): Grouped
 
   const result = Array.from(groups.entries()).map(([key, meetings]) => ({
     key,
-    label: format(parseISO(meetings[0].date!), "MMMM yyyy"),
+    // The `key` above stays the machine `yyyy-MM`; only the label is localized.
+    label: formatLocaleDate(meetings[0].date, { month: "long", year: "numeric" }),
     meetings,
   }));
   if (undated.length > 0) {

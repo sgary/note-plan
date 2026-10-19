@@ -1,7 +1,9 @@
 import { DayPicker } from "react-day-picker";
+import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { dateLocaleFor } from "@/lib/i18n/date-locale";
 
 /**
  * In-app calendar (react-day-picker), shadcn-styled. Rendered inside a Popover by
@@ -15,8 +17,12 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: React.ComponentProps<typeof DayPicker>) {
+  // react-day-picker needs a date-fns Locale object (not an Intl tag) for its month/weekday
+  // names; subscribing via useTranslation keeps it in step when the UI language changes.
+  const { i18n } = useTranslation();
   return (
     <DayPicker
+      locale={dateLocaleFor(i18n.language)}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{

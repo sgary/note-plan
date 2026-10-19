@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Calendar as CalendarIcon, X } from "lucide-react";
-import { format, parseISO, isValid } from "date-fns";
+import { parseISO, isValid } from "date-fns";
+import { formatLocaleDate } from "@/lib/i18n/format";
 import { formatLocalISODate } from "@desk/core";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
@@ -28,8 +29,7 @@ interface DateFieldProps {
 
 function formatDisplay(value: string): string | null {
   if (!value) return null;
-  const parsed = parseISO(value);
-  return isValid(parsed) ? format(parsed, "MMM d, yyyy") : value;
+  return formatLocaleDate(value, { day: "numeric", month: "short", year: "numeric" });
 }
 
 /**
