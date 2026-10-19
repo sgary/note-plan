@@ -25,19 +25,23 @@ import { useCreateMeeting, useProjects, useCurrentWorkspace, useOpenTab } from "
 import { toast } from "sonner";
 import { useTemplatesStore } from "@/stores/templates";
 import { resolveVariables } from "@/lib/templates";
-import { todayISO } from "@desk/core";
+import { todayISO, WORKSPACE_LEVEL_PROJECT_ID } from "@desk/core";
+import type { MeetingScope } from "@/lib/meeting-scope";
 
 interface NewMeetingModalProps {
   open: boolean;
   onClose: () => void;
+  scope?: MeetingScope;
   defaultProjectId?: string;
 }
 
 export function NewMeetingModal({
   open,
   onClose,
+  scope = "project",
   defaultProjectId,
 }: NewMeetingModalProps) {
+  const isCompany = scope === "company";
   const { t } = useTranslation();
   const currentWorkspace = useCurrentWorkspace();
   const createMeeting = useCreateMeeting();
@@ -57,20 +61,22 @@ export function NewMeetingModal({
     if (open) {
       setTitle("");
       setDate(todayISO());
-      setProjectId(defaultProjectId || "");
+      setProjectId(isCompany ? "" : defaultProjectId || "");
     }
-  }, [open, defaultProjectId]);
+  }, [open, defaultProjectId, isCompany]);
 
   useEffect(() => {
+    if (isCompany) return;
     if (!projectId && projects.length > 0) {
       setProjectId(defaultProjectId || projects[0].id);
     }
-  }, [projects, projectId, defaultProjectId]);
+  }, [isCompany, projects, projectId, defaultProjectId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title.trim() || !currentWorkspace || !projectId) return;
+    const effectiveProjectId = isCompany ? WORKSPACE_LEVEL_PROJECT_ID : projectId;
+    if (!title.trim() || !currentWorkspace || !effectiveProjectId) return;
 
     try {
       const templateBody = resolveVariables(
@@ -78,14 +84,16 @@ export function NewMeetingModal({
         {
           title: title.trim(),
           date: date || todayISO(),
-          project: projects.find((p) => p.id === projectId)?.name || "",
+          project: isCompany
+            ? ""
+            : projects.find((p) => p.id === effectiveProjectId)?.name || "",
           workspace: currentWorkspace.name,
         }
       );
 
       const meeting = await createMeeting.mutateAsync({
         workspaceId: currentWorkspace.id,
-        projectId,
+        projectId: effectiveProjectId,
         title: title.trim(),
         date: date || undefined,
         templateBody,
@@ -128,20 +136,22 @@ export function NewMeetingModal({
           </FormField>
 
           <FormGrid>
-            <FormField label={t("modals.newMeeting.fields.project")}>
-              <Select value={projectId} onValueChange={setProjectId}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder={t("modals.newMeeting.placeholders.project")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {projects.map((project) => (
-                    <SelectItem key={project.id} value={project.id}>
-                      {project.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormField>
+            {!isCompany && (
+              <FormField label={t("modals.newMeeting.fields.project")}>
+                <Select value={projectId} onValueChange={setProjectId}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={t("modals.newMeeting.placeholders.project")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {projects.map((project) => (
+                      <SelectItem key={project.id} value={project.id}>
+                        {project.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormField>
+            )}
 
             <FormField id="meeting-date" label={t("modals.newMeeting.fields.date")}>
               <DateField
@@ -159,7 +169,7 @@ export function NewMeetingModal({
             </Button>
             <Button
               type="submit"
-              disabled={!title.trim() || !projectId || createMeeting.isPending}
+              disabled={!title.trim() || (!isCompany && !projectId) || createMeeting.isPending}
             >
               {createMeeting.isPending && (
                 <InlineProgress />

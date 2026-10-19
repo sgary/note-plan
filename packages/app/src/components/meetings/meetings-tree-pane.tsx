@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { AIBadge } from "@/components/ui/ai-badge";
 import { matchesSearch } from "@/lib/tree-count";
 import { safeFormat } from "@/lib/i18n/format";
+import { filterMeetingsByScope, type MeetingScope } from "@/lib/meeting-scope";
 import type { Meeting } from "@desk/core/types";
 import {
   useMeetings,
@@ -33,6 +34,8 @@ const UNASSIGNED = "_unassigned";
 
 interface MeetingsTreePaneProps {
   workspaceId: string;
+  /** Which meetings list this pane renders. Defaults to "project". */
+  scope?: MeetingScope;
   /** Seeds the project filter (e.g. from a project overview quick-link). */
   initialProjectFilter?: string;
 }
@@ -69,7 +72,11 @@ function groupByMonth(meetings: Meeting[], dir: "asc" | "desc", noDateLabel: str
   return result;
 }
 
-export function MeetingsTreePane({ workspaceId, initialProjectFilter }: MeetingsTreePaneProps) {
+export function MeetingsTreePane({
+  workspaceId,
+  scope = "project",
+  initialProjectFilter,
+}: MeetingsTreePaneProps) {
   const { t } = useTranslation();
   const { data: meetings = [], isLoading: meetingsLoading } = useMeetings(workspaceId);
   const { data: projects = [], isLoading: projectsLoading } = useProjects(workspaceId);
@@ -109,15 +116,17 @@ export function MeetingsTreePane({ workspaceId, initialProjectFilter }: Meetings
   );
 
   const filtered = useMemo(() => {
-    return meetings.filter((m) => {
-      if (projectFilter === UNASSIGNED) {
-        if (m.projectId) return false;
-      } else if (projectFilter !== ALL_PROJECTS) {
-        if (m.projectId !== projectFilter) return false;
+    return filterMeetingsByScope(meetings, scope).filter((m) => {
+      if (scope === "project") {
+        if (projectFilter === UNASSIGNED) {
+          if (m.projectId) return false;
+        } else if (projectFilter !== ALL_PROJECTS) {
+          if (m.projectId !== projectFilter) return false;
+        }
       }
       return matchesSearch(searchQuery, m.title, m.content);
     });
-  }, [meetings, projectFilter, searchQuery]);
+  }, [meetings, scope, projectFilter, searchQuery]);
 
   const groups = useMemo(
     () => groupByMonth(filtered, sortDir, t("pages.meetings.groups.noDate")),
@@ -152,7 +161,7 @@ export function MeetingsTreePane({ workspaceId, initialProjectFilter }: Meetings
     [deleteMeeting, t],
   );
 
-  const showProjectTag = projectFilter === ALL_PROJECTS;
+  const showProjectTag = scope === "project" && projectFilter === ALL_PROJECTS;
 
   const sortOptions: ListPaneSortOption[] = [
     {
@@ -184,24 +193,26 @@ export function MeetingsTreePane({ workspaceId, initialProjectFilter }: Meetings
           </DropdownMenuItem>
         }
         filter={
-          <Select value={projectFilter} onValueChange={setProjectFilter}>
-            <SelectTrigger size="xs" className="h-7 w-full text-xs">
-              <SelectValue placeholder={t("pages.meetings.tree.filter.allProjects")} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL_PROJECTS}>
-                {t("pages.meetings.tree.filter.allProjects")}
-              </SelectItem>
-              <SelectItem value={UNASSIGNED}>
-                {t("pages.meetings.tree.filter.noProject")}
-              </SelectItem>
-              {sortedProjects.map((p) => (
-                <SelectItem key={p.id} value={p.id}>
-                  {p.name}
+          scope === "project" ? (
+            <Select value={projectFilter} onValueChange={setProjectFilter}>
+              <SelectTrigger size="xs" className="h-7 w-full text-xs">
+                <SelectValue placeholder={t("pages.meetings.tree.filter.allProjects")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={ALL_PROJECTS}>
+                  {t("pages.meetings.tree.filter.allProjects")}
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+                <SelectItem value={UNASSIGNED}>
+                  {t("pages.meetings.tree.filter.noProject")}
+                </SelectItem>
+                {sortedProjects.map((p) => (
+                  <SelectItem key={p.id} value={p.id}>
+                    {p.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : undefined
         }
         countLabel={t("pages.meetings.tree.meetingCount", { count: filtered.length })}
         action={{
@@ -278,8 +289,11 @@ export function MeetingsTreePane({ workspaceId, initialProjectFilter }: Meetings
       <NewMeetingModal
         open={newMeetingOpen}
         onClose={() => setNewMeetingOpen(false)}
+        scope={scope}
         defaultProjectId={
-          projectFilter !== ALL_PROJECTS && projectFilter !== UNASSIGNED ? projectFilter : undefined
+          scope === "project" && projectFilter !== ALL_PROJECTS && projectFilter !== UNASSIGNED
+            ? projectFilter
+            : undefined
         }
       />
     </>
