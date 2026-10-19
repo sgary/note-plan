@@ -50,6 +50,9 @@ yarn-error.log*
 # Agent worktrees
 .agtx/
 
+# Brainstorming visual companion
+.superpowers/
+
 # Claude local data
 .claude/
 .claude-refactor-log/
