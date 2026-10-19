@@ -38,3 +38,6 @@ fs2 = "0.4"
 tauri-plugin-http = "2"
 
 keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust"] }
+# Reads the SYSTEM language, which is what AppKit uses for its own menu items (see menu_labels
+# in lib.rs). Tiny, dependency-free, cross-platform.
+sys-locale = "0.3"
