@@ -17,6 +17,8 @@ export interface ChatOptions {
   model?: string;
   /** Only read for the `custom` provider. */
   baseURL?: string;
+  /** Only read for the `custom` provider. */
+  headers?: Record<string, string>;
   systemPrompt: string;
   message: string;
 }
@@ -39,7 +41,7 @@ const CALL_TIMEOUT_MS = 60_000;
 
 export async function runChat(opts: ChatOptions): Promise<{ message: string; usage?: AIUsage }> {
   const request: ProviderModelRequest | undefined = providerNeedsFetch(opts.provider)
-    ? { baseURL: opts.baseURL, fetch: getAIFetchResolver()() }
+    ? { baseURL: opts.baseURL, fetch: getAIFetchResolver()(), headers: opts.headers }
     : undefined;
   const model = getProviderDefinition(opts.provider).createModel(opts.apiKey, opts.model, request);
   try {

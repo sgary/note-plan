@@ -7,6 +7,7 @@ import {
   SettingsSection,
 } from "@/components/ui/settings-section";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Eye, EyeOff } from "lucide-react";
@@ -124,9 +125,13 @@ export function AITab() {
     providerType,
     modelByProvider,
     customBaseURL,
+    customHeaders,
+    customSessionId,
     setProviderType,
     setModelForProvider,
     setCustomBaseURL,
+    setCustomHeaders,
+    setCustomSessionId,
   } = useAIMaintenanceSettingsStore();
   const queryClient = useQueryClient();
 
@@ -174,6 +179,14 @@ export function AITab() {
       setProviderType(safeProviderType);
     }
   }, [providerType, safeProviderType, setProviderType]);
+
+  // OpenCode Go rejects requests without a session header. Generate the id once and keep it
+  // stable (a fresh value per request would defeat OpenCode's prompt caching).
+  useEffect(() => {
+    if (isCustom && !customSessionId) {
+      setCustomSessionId(crypto.randomUUID());
+    }
+  }, [isCustom, customSessionId, setCustomSessionId]);
 
   /** Writes the current input to the Keychain and refreshes the "configured?" readers. */
   const persistApiKey = async (): Promise<boolean> => {
@@ -263,24 +276,39 @@ export function AITab() {
             </Select>
           </SettingsRow>
           {isCustom && (
-            <SettingsRow
-              label={t("settings.ai.customBaseUrl.label")}
-              description={t("settings.ai.customBaseUrl.helperText")}
-            >
-              <div className="w-full sm:w-[320px] space-y-1">
-                <Input
-                  value={customBaseURL}
-                  onChange={(event) => setCustomBaseURL(event.target.value)}
-                  placeholder={t("settings.ai.customBaseUrl.placeholder")}
-                  className="bg-background/80 font-mono text-sm"
+            <>
+              <SettingsRow
+                label={t("settings.ai.customBaseUrl.label")}
+                description={t("settings.ai.customBaseUrl.helperText")}
+              >
+                <div className="w-full sm:w-[320px] space-y-1">
+                  <Input
+                    value={customBaseURL}
+                    onChange={(event) => setCustomBaseURL(event.target.value)}
+                    placeholder={t("settings.ai.customBaseUrl.placeholder")}
+                    className="bg-background/80 font-mono text-sm"
+                  />
+                  {isInsecureEndpoint(customBaseURL) && (
+                    <p className="text-xs text-amber-600 dark:text-amber-500">
+                      {t("settings.ai.customBaseUrl.insecureWarning")}
+                    </p>
+                  )}
+                </div>
+              </SettingsRow>
+              <SettingsRow
+                label={t("settings.ai.customHeaders.label")}
+                description={t("settings.ai.customHeaders.helperText")}
+              >
+                <Textarea
+                  value={customHeaders}
+                  onChange={(event) => setCustomHeaders(event.target.value)}
+                  placeholder={t("settings.ai.customHeaders.placeholder")}
+                  rows={3}
+                  spellCheck={false}
+                  className="w-full bg-background/80 font-mono text-xs sm:w-[320px]"
                 />
-                {isInsecureEndpoint(customBaseURL) && (
-                  <p className="text-xs text-amber-600 dark:text-amber-500">
-                    {t("settings.ai.customBaseUrl.insecureWarning")}
-                  </p>
-                )}
-              </div>
-            </SettingsRow>
+              </SettingsRow>
+            </>
           )}
           <SettingsRow
             label={t("settings.ai.model.label")}

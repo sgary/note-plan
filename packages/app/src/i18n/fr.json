@@ -480,6 +480,11 @@
         "placeholder": "https://…",
         "insecureWarning": "Cette adresse utilise http ; votre clé API sera envoyée en clair."
       },
+      "customHeaders": {
+        "label": "En-têtes supplémentaires",
+        "helperText": "Un « Nom: valeur » par ligne, envoyé à chaque requête. Stocké en clair — n'y mettez jamais de clé. Un en-tête de session est ajouté automatiquement pour OpenCode.",
+        "placeholder": "x-custom-header: value"
+      },
       "testConnection": {
         "button": "Tester la connexion",
         "testing": "Test en cours…",

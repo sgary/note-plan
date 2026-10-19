@@ -26,6 +26,18 @@ function stubFetch(calls: string[]) {
   }) as typeof fetch;
 }
 
+function headerCapturingFetch(sink: Headers[]) {
+  return (async (input: unknown, init?: RequestInit) => {
+    sink.push(
+      input instanceof Request ? input.headers : new Headers((init?.headers as HeadersInit) ?? undefined),
+    );
+    return new Response(JSON.stringify(CHAT_COMPLETION), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    });
+  }) as typeof fetch;
+}
+
 describe("custom (OpenAI-compatible) provider", () => {
   afterEach(() => resetAIFetchResolver());
 
@@ -80,5 +92,23 @@ describe("custom (OpenAI-compatible) provider", () => {
     expect(providerNeedsFetch("custom")).toBe(true);
     expect(providerNeedsFetch("openai")).toBe(false);
     expect(providerNeedsFetch("anthropic")).toBe(false);
+  });
+
+  it("sends the given extra headers with the request", async () => {
+    const seen: Headers[] = [];
+    setAIFetchResolver(() => headerCapturingFetch(seen));
+
+    await runChat({
+      provider: "custom",
+      apiKey: "k",
+      model: "deepseek-v4.1-flash",
+      baseURL: "https://opencode.ai/inference/go/openai/v1",
+      headers: { "x-opencode-session": "sess-1" },
+      systemPrompt: "s",
+      message: "m",
+    });
+
+    expect(seen).toHaveLength(1);
+    expect(seen[0].get("x-opencode-session")).toBe("sess-1");
   });
 });

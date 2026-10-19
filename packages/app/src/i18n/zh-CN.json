@@ -480,6 +480,11 @@
         "placeholder": "https://…",
         "insecureWarning": "该地址使用 http，你的 API 密钥将以未加密方式发送。"
       },
+      "customHeaders": {
+        "label": "额外请求头",
+        "helperText": "每行一个「名称: 值」，随每次请求发送。以明文存储，请不要把密钥填在这里。指向 OpenCode 时会自动附加会话头。",
+        "placeholder": "x-custom-header: value"
+      },
       "testConnection": {
         "button": "测试连接",
         "testing": "测试中…",

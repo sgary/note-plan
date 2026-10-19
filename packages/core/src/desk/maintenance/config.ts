@@ -10,6 +10,7 @@
  */
 import { getSetting } from "../settings";
 import { createAIService, type AIService } from "../ai/service";
+import { resolveCustomHeaders } from "../ai/custom-headers";
 import { appendAIUsage } from "../ai-usage";
 import type { AIProviderType, AIPurpose } from "../ai/types";
 import type { SummaryDetail } from "./types";
@@ -22,6 +23,17 @@ export interface AIMaintenanceSettings {
   modelByProvider: Record<string, string>;
   /** Base URL for the `custom` (OpenAI-compatible) provider. Not secret. Empty = not configured. */
   customBaseURL: string;
+  /**
+   * Extra request headers for the `custom` provider, as free-form `Name: value` lines.
+   * **Not secret** — this lands in the shared settings file, so never put a key here.
+   */
+  customHeaders: string;
+  /**
+   * Stable per-conversation id sent as `x-opencode-session` to `*.opencode.ai` endpoints
+   * (OpenCode Go rejects requests without it). Generated once by the app and kept stable so
+   * OpenCode's prompt caching works.
+   */
+  customSessionId: string;
 }
 
 export const AI_MAINTENANCE_DEFAULTS: AIMaintenanceSettings = {
@@ -30,6 +42,8 @@ export const AI_MAINTENANCE_DEFAULTS: AIMaintenanceSettings = {
   providerType: "openai",
   modelByProvider: {},
   customBaseURL: "",
+  customHeaders: "",
+  customSessionId: "",
 };
 
 export async function getAIMaintenanceSettings(): Promise<AIMaintenanceSettings> {
@@ -53,6 +67,11 @@ export function createMaintenanceService(settings: AIMaintenanceSettings, purpos
     providerType: settings.providerType,
     model: settings.modelByProvider[settings.providerType] || undefined,
     baseURL: settings.customBaseURL || undefined,
+    headers: resolveCustomHeaders({
+      rawHeaders: settings.customHeaders,
+      sessionId: settings.customSessionId,
+      baseURL: settings.customBaseURL,
+    }),
     onUsage: (usage) => void appendAIUsage({ purpose, provider: settings.providerType, usage }),
   });
 }

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { getDeskService, type DeskService } from "@desk/core";
+import { AI_MAINTENANCE_DEFAULTS, getDeskService, type DeskService } from "@desk/core";
 import {
   InMemoryStorageProvider,
   resetAIKeyResolver,
@@ -92,5 +92,38 @@ describe("testAIConnection", () => {
       code: "invalid-config",
     });
     expect(called).toBe(false);
+  });
+
+  it("sends the generated session header to an OpenCode endpoint", async () => {
+    await service.setSetting(
+      "ai-maintenance",
+      JSON.stringify({
+        ...AI_MAINTENANCE_DEFAULTS,
+        providerType: "custom",
+        modelByProvider: { custom: "deepseek-v4.1-flash" },
+        customBaseURL: "https://opencode.ai/zen/go/v1",
+        customSessionId: "sess-abc",
+      }),
+    );
+
+    const seen: Headers[] = [];
+    setAIFetchResolver(
+      () =>
+        (async (input: unknown, init?: RequestInit) => {
+          seen.push(
+            input instanceof Request
+              ? input.headers
+              : new Headers((init?.headers as HeadersInit) ?? undefined),
+          );
+          return new Response(JSON.stringify(OK_BODY), {
+            status: 200,
+            headers: { "content-type": "application/json" },
+          });
+        }) as typeof fetch,
+    );
+
+    await expect(service.testAIConnection()).resolves.toMatchObject({ ok: true });
+    expect(seen).toHaveLength(1);
+    expect(seen[0].get("x-opencode-session")).toBe("sess-abc");
   });
 });

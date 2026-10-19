@@ -480,6 +480,11 @@
         "placeholder": "https://…",
         "insecureWarning": "Diese Adresse verwendet http; dein API-Schlüssel wird unverschlüsselt gesendet."
       },
+      "customHeaders": {
+        "label": "Zusätzliche Header",
+        "helperText": "Je Zeile ein „Name: Wert“, wird mit jeder Anfrage gesendet. Unverschlüsselt gespeichert — hier niemals einen Schlüssel eintragen. Für OpenCode wird automatisch ein Session-Header ergänzt.",
+        "placeholder": "x-custom-header: value"
+      },
       "testConnection": {
         "button": "Verbindung testen",
         "testing": "Wird getestet…",

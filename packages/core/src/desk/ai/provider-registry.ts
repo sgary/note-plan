@@ -20,6 +20,8 @@ export interface ProviderModelOption {
 export interface ProviderModelRequest {
   baseURL?: string;
   fetch?: typeof fetch;
+  /** Extra request headers (non-secret). Only the `custom` provider uses these. */
+  headers?: Record<string, string>;
 }
 
 export interface ProviderDefinition {
@@ -84,9 +86,13 @@ export const PROVIDER_REGISTRY: Record<AIProviderType, ProviderDefinition> = {
           "Custom provider requires a model.",
         );
       }
-      return createOpenAICompatible({ name: "custom", baseURL, apiKey, fetch: request?.fetch })(
-        modelId,
-      );
+      return createOpenAICompatible({
+        name: "custom",
+        baseURL,
+        apiKey,
+        fetch: request?.fetch,
+        headers: request?.headers,
+      })(modelId);
     },
   },
 };

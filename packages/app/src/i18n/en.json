@@ -480,6 +480,11 @@
         "placeholder": "https://…",
         "insecureWarning": "This address uses http; your API key will be sent unencrypted."
       },
+      "customHeaders": {
+        "label": "Additional headers",
+        "helperText": "One Name: value per line, sent with every request. Stored unencrypted — never put a key here. An OpenCode session header is added automatically.",
+        "placeholder": "x-custom-header: value"
+      },
       "testConnection": {
         "button": "Test connection",
         "testing": "Testing…",
