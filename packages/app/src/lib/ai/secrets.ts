@@ -8,6 +8,7 @@ export type SecretKeyRef = AIKeyRef;
 const SECRET_SERVICE: Record<SecretKeyRef, string> = {
   "ai.openai": "desk.ai.openai",
   "ai.anthropic": "desk.ai.anthropic",
+  "ai.custom": "desk.ai.custom",
 };
 
 interface SecretGetResponse {

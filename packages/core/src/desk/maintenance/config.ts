@@ -18,8 +18,10 @@ export interface AIMaintenanceSettings {
   autoSummarizeOnSave: boolean;
   summaryDetail: SummaryDetail;
   providerType: AIProviderType;
-  /** Model ID per provider (empty = provider default). */
+  /** Model ID per provider (empty = provider default). The `custom` model id is free text. */
   modelByProvider: Record<string, string>;
+  /** Base URL for the `custom` (OpenAI-compatible) provider. Not secret. Empty = not configured. */
+  customBaseURL: string;
 }
 
 export const AI_MAINTENANCE_DEFAULTS: AIMaintenanceSettings = {
@@ -27,6 +29,7 @@ export const AI_MAINTENANCE_DEFAULTS: AIMaintenanceSettings = {
   summaryDetail: "brief",
   providerType: "openai",
   modelByProvider: {},
+  customBaseURL: "",
 };
 
 export async function getAIMaintenanceSettings(): Promise<AIMaintenanceSettings> {
@@ -49,6 +52,7 @@ export function createMaintenanceService(settings: AIMaintenanceSettings, purpos
   return createAIService({
     providerType: settings.providerType,
     model: settings.modelByProvider[settings.providerType] || undefined,
+    baseURL: settings.customBaseURL || undefined,
     onUsage: (usage) => void appendAIUsage({ purpose, provider: settings.providerType, usage }),
   });
 }

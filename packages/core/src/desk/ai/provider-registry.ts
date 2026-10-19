@@ -1,13 +1,25 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { LanguageModel } from "ai";
 import type { AIProviderType } from "./types";
 import type { AIKeyRef } from "./key-resolver";
+import { AIProviderError } from "./errors";
 
 export interface ProviderModelOption {
   id: string;
   label: string;
   description: string;
+}
+
+/**
+ * Per-call request options. Only the `custom` provider reads them
+ * (see `transport.providerNeedsFetch`), because only a user-supplied endpoint needs a base URL
+ * and the injected fetch (the desktop app's CSP can't enumerate arbitrary origins).
+ */
+export interface ProviderModelRequest {
+  baseURL?: string;
+  fetch?: typeof fetch;
 }
 
 export interface ProviderDefinition {
@@ -17,7 +29,7 @@ export interface ProviderDefinition {
   defaultModel: string;
   models: ProviderModelOption[];
   /** The one place a provider SDK model is constructed (used by the transport). */
-  createModel: (apiKey: string, modelId?: string) => LanguageModel;
+  createModel: (apiKey: string, modelId?: string, request?: ProviderModelRequest) => LanguageModel;
 }
 
 /**
@@ -49,6 +61,33 @@ export const PROVIDER_REGISTRY: Record<AIProviderType, ProviderDefinition> = {
       { id: "gpt-5-codex", label: "GPT-5 Codex", description: "Code-focused reasoning" },
     ],
     createModel: (apiKey, modelId) => createOpenAI({ apiKey })(modelId || "gpt-5-mini"),
+  },
+  custom: {
+    providerId: "custom",
+    label: "Custom",
+    keyRef: "ai.custom",
+    defaultModel: "",
+    models: [],
+    createModel: (apiKey, modelId, request) => {
+      const baseURL = request?.baseURL?.trim();
+      if (!baseURL) {
+        throw new AIProviderError(
+          "invalid-config",
+          "custom",
+          "Custom provider requires a base URL.",
+        );
+      }
+      if (!modelId) {
+        throw new AIProviderError(
+          "invalid-config",
+          "custom",
+          "Custom provider requires a model.",
+        );
+      }
+      return createOpenAICompatible({ name: "custom", baseURL, apiKey, fetch: request?.fetch })(
+        modelId,
+      );
+    },
   },
 };
 

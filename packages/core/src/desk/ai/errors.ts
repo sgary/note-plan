@@ -18,6 +18,7 @@ export type AIErrorCode =
   | "rate-limit" // too many requests (429, retryable)
   | "network" // couldn't reach the provider (fetch/DNS/timeout)
   | "model-not-found" // the selected model id doesn't exist (404)
+  | "invalid-config" // the provider's own configuration is incomplete (e.g. custom base URL/model)
   | "unknown";
 
 export class AIProviderError extends Error {
@@ -92,7 +93,7 @@ export function classifyAIError(error: unknown, provider: AIProviderType): AIPro
   return new AIProviderError(code, provider, MESSAGES[code](provider), error);
 }
 
-const label: Record<AIProviderType, string> = { openai: "OpenAI", anthropic: "Anthropic" };
+const label: Record<AIProviderType, string> = { openai: "OpenAI", anthropic: "Anthropic", custom: "Custom" };
 
 /** Clean, self-authored messages (safe to expose from the server; UI prefers the code mapping). */
 const MESSAGES: Record<AIErrorCode, (p: AIProviderType) => string> = {
@@ -101,5 +102,6 @@ const MESSAGES: Record<AIErrorCode, (p: AIProviderType) => string> = {
   "rate-limit": (p) => `${label[p]} rate limit hit — try again shortly.`,
   network: (p) => `Couldn't reach ${label[p]} — check the network connection.`,
   "model-not-found": (p) => `The selected ${label[p]} model isn't available.`,
+  "invalid-config": (p) => `${label[p]} is not fully configured — set a base URL and a model.`,
   unknown: (p) => `${label[p]} request failed.`,
 };
