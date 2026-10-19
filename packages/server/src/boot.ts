@@ -57,6 +57,7 @@ function configureHost(root: string): void {
   const keyEnv: Record<string, string | undefined> = {
     "ai.anthropic": process.env.ANTHROPIC_API_KEY,
     "ai.openai": process.env.OPENAI_API_KEY,
+    "ai.custom": process.env.CUSTOM_API_KEY,
   };
   setAIKeyResolver(async (ref) => keyEnv[ref]?.trim() || null);
 }

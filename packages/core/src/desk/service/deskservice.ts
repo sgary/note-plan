@@ -162,6 +162,7 @@ export interface DeskService {
   removeFromSmartIndex: typeof maintenanceApi.removeIndexEntry;
   clearSmartIndex: typeof maintenanceApi.clearWorkspaceIndex;
   getAIMaintenanceInfo: typeof maintenanceApi.getAIMaintenanceInfo;
+  testAIConnection: typeof maintenanceApi.testAIConnection;
 
   // ── .aiignore management (per-workspace AI exclusions) — routed through the
   // service so the UI toggles + index reads operate on the *server's* .aiignore in
