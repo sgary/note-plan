@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!--
+    Merged into the generated Info.plist (bundle.macOS.infoPlist in tauri.conf.json).
+
+    Why: without this the bundle declares English only, so AppKit renders its OWN UI in
+    English regardless of the system language — the webview's right-click menu (Look Up,
+    Translate, Spelling and Grammar, Speech, Share…), the Services menu, and every
+    PredefinedMenuItem in the app menu bar (About/Hide/Quit/Undo/Cut/Copy/Paste/Minimize).
+    The web app's own copy is localized by i18next and is unaffected by this list, but macOS
+    picks the language for the system chrome from here.
+
+    Keep in sync with packages/app/src/i18n/*.json.
+  -->
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>de</string>
+    <string>fr</string>
+    <string>zh-Hans</string>
+  </array>
+</dict>
+</plist>
