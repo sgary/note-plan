@@ -104,6 +104,9 @@ export function GeneralTab() {
                 <SelectItem value="fr">
                   {t("settings.general.language.options.fr")}
                 </SelectItem>
+                <SelectItem value="zh-CN">
+                  {t("settings.general.language.options.zh-CN")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </SettingsRow>

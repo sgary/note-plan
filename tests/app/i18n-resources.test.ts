@@ -22,7 +22,7 @@ function leafKeys(value: Resource, prefix = ""): string[] {
 describe("translation resources", () => {
   const englishKeys = new Set(leafKeys(load("en")));
 
-  for (const language of ["de", "fr"]) {
+  for (const language of ["de", "fr", "zh-CN"]) {
     it(`${language} has exactly the same translation keys as English`, () => {
       const localizedKeys = new Set(leafKeys(load(language)));
       const unknown = [...localizedKeys].filter((key) => !englishKeys.has(key));

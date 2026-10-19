@@ -5,6 +5,7 @@ const LOCALE_MAP: Record<string, string> = {
   en: "en-US",
   de: "de-DE",
   fr: "fr-FR",
+  "zh-CN": "zh-CN",
 };
 
 function currentLocale(): string {

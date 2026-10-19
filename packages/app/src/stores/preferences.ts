@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import i18next from "i18next";
 
-export type Language = "en" | "de" | "fr";
+export type Language = "en" | "de" | "fr" | "zh-CN";
 
 // Sidebar width constants
 export const SIDEBAR_COLLAPSED_WIDTH = 56;

@@ -1,0 +1,1494 @@
+{
+  "ai": {
+    "consent": {
+      "title": "使用 AI 功能前",
+      "description": "Desk 的 AI 功能会通过你所选提供商（Anthropic 或 OpenAI）的 API 将内容发送给他们。Desk 自身不运行任何 AI 服务器。",
+      "whatHeading": "会发送哪些内容",
+      "whatItems": {
+        "previews": "你文件的简短预览和摘要，用于构建智能索引目录。"
+      },
+      "whenHeading": "何时发送",
+      "whenBody": "仅在你使用 AI 功能时发送。启用<strong>保存时自动摘要</strong>后，编辑文件后也会自动发送简短的预览。",
+      "retentionHeading": "保留期限",
+      "retentionBody": "按你提供商 API 的条款处理。Anthropic 和 OpenAI 声明，默认情况下 API 数据不会用于训练其模型。",
+      "footer": "如果你没有配置 API 密钥，则不会发送任何内容。你可以随时在「设置 → AI」中查看此说明。",
+      "accept": "我已了解并继续"
+    }
+  },
+  "common": {
+    "listPane": {
+      "searchPlaceholder": "搜索…",
+      "sortTitle": "排序"
+    },
+    "buttons": {
+      "save": "保存",
+      "apply": "应用",
+      "cancel": "取消",
+      "delete": "删除",
+      "confirm": "确认",
+      "close": "关闭",
+      "back": "返回",
+      "continue": "继续",
+      "retry": "重试",
+      "discard": "放弃",
+      "done": "完成",
+      "dontSave": "不保存",
+      "create": "创建",
+      "rename": "重命名",
+      "edit": "编辑",
+      "saving": "保存中…",
+      "add": "添加",
+      "all": "全部",
+      "loading": "加载中…",
+      "tryAgain": "重试",
+      "reloadPage": "重新加载页面",
+      "clear": "清除"
+    },
+    "aiBadge": "AI",
+    "bootErrorTitle": "DeskMD 无法打开数据文件夹"
+  },
+  "overviews": {
+    "discardTitle": "放弃概览更改？",
+    "discardDescription": "你未保存的概览更改将会丢失。",
+    "discardAction": "放弃更改",
+    "showMore": "显示更多",
+    "showLess": "显示更少",
+    "loadFailed": "Desk 无法加载此概览。你的文件未被更改。",
+    "missing": "此概览文件已不存在。",
+    "unsavedHint": "你未保存的概览编辑已受到保护，可以恢复。"
+  },
+  "nav": {
+    "sidebar": {
+      "search": "搜索",
+      "dashboard": "仪表盘",
+      "planner": "计划",
+      "tasks": "任务",
+      "docs": "文档",
+      "meetings": "会议",
+      "projects": "项目",
+      "settings": "设置",
+      "desk": "Desk",
+      "workspaceViews": "工作区视图",
+      "projectsSection": "项目",
+      "allProjects": "所有项目"
+    },
+    "secondarySidebar": {
+      "expandPanel": "展开面板"
+    },
+    "workspaceSwitcher": {
+      "createWorkspace": "创建工作区",
+      "selectWorkspace": "选择工作区",
+      "editWorkspace": "编辑工作区"
+    }
+  },
+  "pages": {
+    "dashboard": {
+      "focus": {
+        "title": "重点关注",
+        "emptyTitle": "暂无重点关注任务",
+        "emptyDescription": "为重要任务加星标，让它们集中显示在这里。",
+        "openTasks": "打开任务",
+        "remove": "从重点关注中移除 {{title}}",
+        "showMore_one": "再显示 {{count}} 个",
+        "showMore_other": "再显示 {{count}} 个",
+        "showLess": "显示更少"
+      },
+      "today": {
+        "title": "今天",
+        "openPlanner": "打开计划",
+        "emptyTitle": "没有已安排或到期的任务",
+        "planDay": "规划你的一天",
+        "taskCount_one": "{{count}} 个任务",
+        "taskCount_other": "{{count}} 个任务",
+        "dueHeading": "到期与逾期",
+        "moreDue_one": "还有 {{count}} 个在计划中",
+        "moreDue_other": "还有 {{count}} 个在计划中"
+      },
+      "recent": {
+        "title": "最近的工作",
+        "unassigned": "未分配"
+      },
+      "overviewError": "无法加载仪表盘概览。仍然可以快速记录。",
+      "capture": {
+        "title": "记录",
+        "defaultHomeName": "主页",
+        "toTriageCount_one": "{{count}} 个待整理",
+        "toTriageCount_other": "{{count}} 个待整理",
+        "quickAddPlaceholder": "快速记录...",
+        "loadingLabel": "任务",
+        "emptyTitle": "快速记录任务，稍后整理",
+        "triageButton": "整理",
+        "moveToHomeTasks": "移到 {{home}} 任务",
+        "noWorkspacesYet": "暂无工作区",
+        "unassigned": "未分配"
+      }
+    },
+    "tasks": {
+      "kanban": {
+        "noTasks": "无任务"
+      },
+      "list": {
+        "dueLabel": "截止：{{date}}"
+      },
+      "visibility": {
+        "show": "显示 {{label}}",
+        "hide": "隐藏 {{label}}"
+      },
+      "newTask": "新建任务",
+      "noProject": "无项目",
+      "countLabel": "任务",
+      "filters": {
+        "projectLabel": "项目",
+        "priorityLabel": "优先级",
+        "allProjects": "所有项目",
+        "allPriorities": "所有优先级"
+      }
+    },
+    "docs": {
+      "dropZone": {
+        "title": "拖入文件以导入"
+      },
+      "convertDialog": {
+        "title": "导入 Office 文件",
+        "description_one": "{{count}} 个文件可以转换为 Markdown 文档。你想如何处理？",
+        "description_other": "{{count}} 个文件可以转换为 Markdown 文档。你想如何处理？",
+        "moreFiles_one": "还有 {{count}} 个",
+        "moreFiles_other": "还有 {{count}} 个",
+        "buttons": {
+          "convert": "转换为文档",
+          "keep": "保留为文件",
+          "both": "两者都做"
+        }
+      },
+      "tree": {
+        "searchPlaceholder": "搜索文档…",
+        "fileCount_one": "{{count}} 个文件",
+        "fileCount_other": "{{count}} 个文件",
+        "sections": {
+          "workspace": "工作区",
+          "projects": "项目"
+        },
+        "sort": {
+          "name": "名称",
+          "nameAsc": "A-Z",
+          "nameDesc": "Z-A",
+          "created": "创建时间",
+          "modified": "修改时间",
+          "newest": "最新",
+          "oldest": "最早"
+        },
+        "actions": {
+          "newFolder": "新建文件夹",
+          "newDoc": "新建文档",
+          "importFiles": "导入文件",
+          "openInFinder": "在访达中打开"
+        },
+        "newFolderDialog": {
+          "title": "新建文件夹",
+          "description": "创建新文件夹",
+          "placeholder": "文件夹名称",
+          "creatingIn": "创建位置：{{path}}"
+        }
+      },
+      "selectWorkspaceTitle": "选择工作区",
+      "selectWorkspaceDescription": "在侧边栏选择一个工作区以查看文档。",
+      "selectDocTitle": "选择文档",
+      "selectDocDescription": "从列表中选择一个文档以打开。",
+      "authorAi": "由 AI 撰写",
+      "authorFilter": {
+        "label": "撰写者",
+        "all": "全部",
+        "mine": "我撰写的",
+        "generated": "由 AI 撰写"
+      }
+    },
+    "meetings": {
+      "latestBadge": "最新",
+      "groups": {
+        "noDate": "无日期"
+      },
+      "tree": {
+        "meetingCount_one": "{{count}} 个会议",
+        "meetingCount_other": "{{count}} 个会议",
+        "emptyAll": "暂无会议。",
+        "emptyMatching": "没有匹配的会议。",
+        "sort": {
+          "newestFirst": "最新优先",
+          "oldestFirst": "最早优先"
+        },
+        "actions": {
+          "newMeeting": "新建会议"
+        },
+        "filter": {
+          "allProjects": "所有项目",
+          "noProject": "无项目"
+        }
+      },
+      "selectWorkspaceTitle": "选择工作区",
+      "selectWorkspaceDescription": "在侧边栏选择一个工作区以查看会议。",
+      "noMeetingsTitle": "暂无会议",
+      "noMeetingsDescription": "使用面板中的「+ 新建会议」创建一个。",
+      "selectMeetingTitle": "选择会议",
+      "selectMeetingDescription": "从列表中选择一个会议以打开。"
+    },
+    "projects": {
+      "home": {
+        "loading": "正在加载项目…",
+        "notFoundTitle": "未找到项目",
+        "notFoundDescription": "此项目可能已被删除或移动。",
+        "loadErrorTitle": "无法加载此项目",
+        "loadErrorDescription": "无法组装项目上下文。请重试。",
+        "createdOn": "创建于 {{date}}",
+        "lastActivity": "活跃于 {{date}}",
+        "metricTasks_one": "{{count}} 个进行中的任务",
+        "metricTasks_other": "{{count}} 个进行中的任务",
+        "metricDocs_one": "{{count}} 个文档",
+        "metricDocs_other": "{{count}} 个文档",
+        "metricMeetings_one": "{{count}} 个会议",
+        "metricMeetings_other": "{{count}} 个会议",
+        "renameTitle": "点击重命名",
+        "descriptionPlaceholder": "添加简短描述…",
+        "descriptionEditTitle": "点击编辑",
+        "deleteProject": "删除项目",
+        "tasksHeading": "进行中的任务",
+        "openBoard": "打开看板",
+        "moreOnBoard_one": "看板上还有 {{count}} 个",
+        "moreOnBoard_other": "看板上还有 {{count}} 个",
+        "noActiveTasks": "无进行中的任务。",
+        "quickAddPlaceholder": "添加任务…",
+        "currentWork": "当前工作",
+        "noCurrentWork": "目前这里无需关注的事项。",
+        "timeline": {
+          "schedule": "安排",
+          "history": "历史",
+          "showMore": "显示完整时间线",
+          "showLess": "显示更少",
+          "events": {
+            "project-created": "项目已创建",
+            "task-created": "任务已添加",
+            "task-completed": "任务已完成",
+            "task-due": "任务到期",
+            "meeting": "会议",
+            "doc-created": "文档已添加",
+            "doc-updated": "文档已更新"
+          }
+        },
+        "meetingsHeading": "会议",
+        "newMeeting": "新建会议",
+        "allMeetings": "所有会议",
+        "noMeetings": "暂无会议。",
+        "docsHeading": "文档",
+        "allDocs": "所有文档",
+        "noDocs": "暂无文档。",
+        "activityHeading": "最近的工作",
+        "noActivity": "暂无最近的工作。",
+        "counts": {
+          "active_one": "{{count}} 个进行中",
+          "active_other": "{{count}} 个进行中",
+          "done_one": "{{count}} 个已完成",
+          "done_other": "{{count}} 个已完成",
+          "backlog_one": "{{count}} 个在待处理",
+          "backlog_other": "{{count}} 个在待处理"
+        },
+        "overview": {
+          "title": "项目概览",
+          "placeholder": "描述这个项目是什么、重点关注什么，以及如何快速了解它。"
+        }
+      },
+      "browse": {
+        "newProject": "新建项目",
+        "statusLabel": "状态",
+        "allStatuses": "所有状态",
+        "countLabel": "项目",
+        "searchPlaceholder": "搜索项目…",
+        "sortLabel": "排序",
+        "sortRecent": "最近活动",
+        "sortName": "名称 A–Z",
+        "activeTasks_one": "{{count}} 个进行中",
+        "activeTasks_other": "{{count}} 个进行中",
+        "workspaceOverview": {
+          "title": "工作区概览",
+          "placeholder": "描述这个工作区、它的用途，以及人们首先应该了解的事项。"
+        }
+      },
+      "deleteConfirmTitle": "删除项目",
+      "deleteConfirmDescription": "确定要删除「{{name}}」吗？这将永久删除该项目及其所有任务、文档和会议。",
+      "loadErrorTitle": "无法加载项目",
+      "loadErrorDescription": "无法加载项目信息。请检查连接后重试。",
+      "selectWorkspaceTitle": "选择工作区",
+      "selectWorkspaceDescription": "在侧边栏选择一个工作区以查看项目。"
+    },
+    "planner": {
+      "taskPicker": {
+        "placeholder": "添加任务或笔记...",
+        "noAvailableTasks": "无可用任务",
+        "addAsNote": "将「{{text}}」添加为笔记"
+      },
+      "block": {
+        "addNote": "添加笔记",
+        "removeBlock": "移除时间段",
+        "notePlaceholder": "输入笔记...",
+        "moreCount": "+{{count}} 个"
+      },
+      "rail": {
+        "title": "待安排",
+        "empty": "没有待安排的内容",
+        "overdue": "已逾期",
+        "dueThisWeek": "本周到期",
+        "later": "稍后",
+        "noDate": "无日期",
+        "collapse": "折叠",
+        "expand": "显示未安排的任务"
+      },
+      "due": {
+        "today": "今天"
+      },
+      "dueStrip": {
+        "count_one": "{{count}} 个任务到期",
+        "count_other": "{{count}} 个任务到期"
+      },
+      "intentions": {
+        "add": "添加意向",
+        "placeholder": "这一周的重点是什么？"
+      }
+    }
+  },
+  "settings": {
+    "pageDescriptions": {
+      "general": "选择 Desk 的语言、外观和导航偏好。",
+      "planner": "设置每周计划中显示的工作时间和日期。",
+      "templates": "为新会议、文档和任务定义可复用内容。",
+      "ai": "配置 AI 提供商、隐私、用量和文件索引。",
+      "agents": "控制在本地或通过 MCP 提供给外部代理的 Desk 上下文。",
+      "data": "管理连接、账户、存储和应用程序设置。",
+      "about": "查看版本信息、更新、项目链接和许可。"
+    },
+    "general": {
+      "appearance": {
+        "title": "外观",
+        "description": "自定义 Desk 的外观"
+      },
+      "theme": {
+        "label": "主题",
+        "description": "选择你偏好的配色方案",
+        "options": {
+          "light": "浅色",
+          "dark": "深色",
+          "system": "跟随系统"
+        }
+      },
+      "language": {
+        "label": "语言",
+        "description": "界面语言",
+        "options": {
+          "en": "English",
+          "de": "Deutsch",
+          "fr": "Français",
+          "zh-CN": "简体中文"
+        }
+      },
+      "compactSidebar": {
+        "label": "紧凑侧边栏",
+        "description": "侧边栏只显示图标（也可以拖动边缘调整大小）"
+      }
+    },
+    "planner": {
+      "title": "计划",
+      "description": "配置你的每周计划",
+      "schedule": {
+        "title": "日程",
+        "description": "选择周视图中显示的时间和日期。"
+      },
+      "workDayStart": {
+        "label": "工作开始时间",
+        "description": "工作日的开始时间"
+      },
+      "workDayEnd": {
+        "label": "工作结束时间",
+        "description": "工作日的结束时间"
+      },
+      "showWeekends": {
+        "label": "显示周末",
+        "description": "在周视图中包含周六和周日"
+      }
+    },
+    "templates": {
+      "title": "模板",
+      "description": "为新会议、文档和任务定义默认内容。可设置全局默认值，或按工作区自定义。",
+      "scopeTitle": "模板范围",
+      "scopeDescription": "编辑全局默认值，或为特定工作区设置覆盖。",
+      "scopeLabel": "范围",
+      "globalDefaults": "全局默认值",
+      "cardTitle": "{{label}}模板",
+      "usingGlobalDefault": "正在使用全局默认值。",
+      "customizeForWorkspace": "为此工作区自定义",
+      "placeholder": "模板内容（markdown）...",
+      "variablesLabel": "变量：",
+      "resetToDefault": "重置为默认值",
+      "removeOverride": "移除覆盖",
+      "types": {
+        "meeting": {
+          "label": "会议",
+          "description": "新会议记录的预填内容"
+        },
+        "doc": {
+          "label": "文档",
+          "description": "新文档的预填内容",
+          "note": "标题标题（# 标题）会自动添加。"
+        },
+        "task": {
+          "label": "任务",
+          "description": "新任务的预填内容"
+        }
+      }
+    },
+    "ai": {
+      "provider": {
+        "title": "提供商",
+        "description": "连接 AI 提供商。用于生成智能索引目录摘要。",
+        "label": "提供商",
+        "helperText": "AI API 后端"
+      },
+      "providers": {
+        "openai": "OpenAI",
+        "anthropic": "Anthropic"
+      },
+      "credentials": {
+        "title": "凭据",
+        "description": "安全地将所选提供商连接到 Desk。"
+      },
+      "model": {
+        "label": "模型",
+        "helperText": "提供商的默认模型"
+      },
+      "apiKey": {
+        "label": "API 密钥（{{provider}}）",
+        "placeholderOpenai": "sk-...",
+        "placeholderAnthropic": "sk-ant-...",
+        "showAriaLabel": "显示 API 密钥",
+        "hideAriaLabel": "隐藏 API 密钥",
+        "storedNotice": "存储在操作系统钥匙串中（钥匙串 / 凭据管理器 / 密钥服务）。",
+        "notConfigured": "未配置提供商密钥。"
+      },
+      "browserMode": {
+        "title": "AI 密钥由桌面应用管理",
+        "description": "你的 AI 提供商密钥由桌面应用安全地存储在本地设备上，因此无法在浏览器中设置。请在桌面端打开 desk.md 来添加或更改。"
+      },
+      "serverMode": {
+        "title": "AI 在你的服务器上运行",
+        "description": "你的 desk 由服务器托管，因此智能索引维护会在服务器上使用其环境中的密钥运行（部署 .env 中的 ANTHROPIC_API_KEY / OPENAI_API_KEY）。在那里设置密钥即表示运营者同意。",
+        "providerConfigured": "{{provider}}：已在服务器上配置密钥。",
+        "providerNotConfigured": "{{provider}}：服务器上尚无密钥。请将其添加到部署 .env 并重启。"
+      },
+      "keychainError": {
+        "title": "无法读取钥匙串",
+        "description": "Desk 无法获取存储的密钥。保存新密钥可能仍然有效，但在问题解决前无法加载现有密钥。",
+        "errorDetails": "错误详情"
+      },
+      "errors": {
+        "linuxKeyring": "在 Linux 上，这通常意味着 GNOME Keyring 或 KWallet 未运行。请启动你的桌面密钥服务后重试。"
+      },
+      "usage": {
+        "title": "使用统计",
+        "description": "查看本地记录的 AI 请求和 token 用量。",
+        "clear": "清除",
+        "noUsage": "暂无使用记录",
+        "totalTokens": "总 token 数",
+        "requests": "请求数"
+      },
+      "privacy": {
+        "title": "数据与隐私",
+        "description": "Desk 会向 AI 提供商发送哪些内容，以及何时发送。",
+        "intro": "AI 功能会通过其 API 将内容发送给上方选择的提供商（Anthropic 或 OpenAI）。Desk 没有自己的 AI 服务器，在你配置 API 密钥之前不会发送任何内容。",
+        "smartIndexLabel": "文件索引",
+        "smartIndexBody": "：文件的简短预览和摘要，在你重建索引时发送；如果启用了「保存时自动摘要」，则会在保存后自动发送。",
+        "retention": "保留期限受你提供商 API 条款的约束。Anthropic 和 OpenAI 声明，默认情况下 API 数据不会用于训练其模型。",
+        "acknowledgement": {
+          "title": "隐私确认",
+          "given": "你已确认 AI 隐私声明。",
+          "notGiven": "将在你首次发出 AI 请求前显示一次。",
+          "revoke": "撤销"
+        }
+      }
+    },
+    "agents": {
+      "title": "外部代理",
+      "description": "控制在本地或通过 MCP 提供给外部代理的 Desk 上下文。",
+      "notice": "这些设置适用于使用生成的本地文件或你托管的 MCP 连接的<strong>外部代理</strong>。",
+      "emit": {
+        "title": "生成文件",
+        "description": "选择要写入数据文件夹的代理文件。内容相同，三个文件名。",
+        "claude": "用于 Claude Code",
+        "agents": "用于 Codex / OpenAI Agents",
+        "gemini": "用于 Gemini CLI",
+        "noneEnabled": "未生成任何代理文件。下面的指令会被保存，但在至少开启一个开关之前不会写入磁盘。"
+      },
+      "global": {
+        "title": "全局指令",
+        "description": "适用于所有工作区，并通过生成的本地文件或 MCP 的 desk_context 提供。"
+      },
+      "instructions": {
+        "globalLabel": "全局指令",
+        "globalDescription": "包含在生成的本地代理文件中，并由 MCP 的 <code>desk_context</code> 工具返回。",
+        "globalPlaceholder": "例如：始终用中文回复。写入文件时使用 Conventional Commit 前缀。",
+        "charCount_one": "{{count}} 个字符 · 自动保存。",
+        "charCount_other": "{{count}} 个字符 · 自动保存。"
+      },
+      "preview": {
+        "toggle": "预览生成的 CLAUDE.md",
+        "revealInFinder": "在访达中显示",
+        "refresh": "刷新",
+        "errorBrowserMode": "预览仅在桌面应用中可用。",
+        "errorFileMissing": "文件尚不存在。请先开启 CLAUDE.md，然后返回。"
+      },
+      "mcp": {
+        "title": "模型上下文协议（MCP）",
+        "description": "在服务器上，外部代理通过 MCP 连接，而不是生成的本地文件。",
+        "notice": "当 Desk 在服务器上运行时，不会写入生成的 CLAUDE.md / AGENTS.md / GEMINI.md 文件。外部代理（Claude、ChatGPT）改为通过 <strong>MCP</strong> 连接到你的 desk。",
+        "endpointLabel": "MCP 端点",
+        "hint": "将此 URL 作为 MCP 服务器添加到你的 AI 客户端。它使用 OAuth 登录，并通过只读工具暴露你的工作区。",
+        "copy": "复制",
+        "copied": "已复制 MCP 端点"
+      }
+    },
+    "data": {
+      "connection": {
+        "title": "连接",
+        "description": "Desk 存储你工作内容的位置",
+        "localLabel": "本机",
+        "remoteLabel": "已连接到服务器",
+        "connectToServer": "连接到服务器",
+        "serverUrlLabel": "服务器地址",
+        "connect": "连接",
+        "connectHint": "如果省略，默认使用 https://。地址必须使用 https。",
+        "invalidUrl": "请输入有效的服务器地址。",
+        "httpsRequired": "服务器必须使用 https。http 地址会以未加密方式发送你的登录令牌。",
+        "switchToLocalLabel": "改用本机",
+        "switchToLocalDescription": "切换回本地文件。你的本地数据不受影响。",
+        "switchToLocal": "切换到本机"
+      },
+      "storage": {
+        "title": "数据存储",
+        "description": "存储你的项目和文件的位置",
+        "pathLabel": "数据文件夹路径",
+        "pathPlaceholder": "~/DeskMD",
+        "change": "更改",
+        "helperText": "你的所有工作区、项目、任务和笔记都以 markdown 文件的形式存储在此文件夹中。"
+      },
+      "reset": {
+        "title": "重置",
+        "description": "恢复默认值并重新运行设置。你的数据文件会保留。",
+        "button": "重置所有设置",
+        "helperText": "这将重置所有设置并再次显示设置向导。你的数据文件不会被删除。"
+      },
+      "resetDialog": {
+        "title": "重置所有设置",
+        "description": "确定要将所有设置重置为默认值吗？这将再次显示设置向导。你的数据文件不会被删除。",
+        "confirmLabel": "重置"
+      },
+      "pathDialog": {
+        "confirmTitle": "切换数据文件夹？",
+        "confirmDescription": "Desk 将保存打开的编辑器，切换到 {{path}}，然后重新加载。",
+        "confirmSwitch": "切换并重新加载",
+        "existingTitle": "发现现有数据",
+        "existingDescription_one": "在此位置找到 {{count}} 个工作区。",
+        "existingDescription_other": "在此位置找到 {{count}} 个工作区。",
+        "emptyTitle": "空位置",
+        "emptyDescription": "此路径下未找到 Desk 数据。你需要创建第一个工作区。",
+        "useExisting": "使用现有数据",
+        "startFresh": "改为全新开始",
+        "continueToSetup": "继续设置"
+      }
+    },
+    "about": {
+      "app": {
+        "title": "Desk",
+        "description": "以纯 Markdown 进行项目和任务管理",
+        "version": "版本",
+        "commit": "提交",
+        "built": "构建时间"
+      },
+      "updates": {
+        "title": "更新",
+        "description": "检查 Desk 的新版本",
+        "noUpdates": "无可用更新",
+        "onLatest": "你已是最新版本",
+        "check": "检查",
+        "checking": "正在检查更新...",
+        "versionAvailable": "版本 {{version}} 可用",
+        "updateAndRestart": "更新并重启",
+        "skipThisVersion": "跳过此版本",
+        "downloading": "正在下载并安装更新...",
+        "checkFailed": "检查更新失败"
+      },
+      "links": {
+        "title": "链接",
+        "description": "在浏览器中打开项目资源",
+        "releaseNotes": "v{{version}} 的发布说明",
+        "allReleases": "所有发布",
+        "viewOnGithub": "在 GitHub 上查看",
+        "reportIssue": "报告问题"
+      },
+      "license": {
+        "title": "许可",
+        "description": "基于 GNU 通用公共许可证开源",
+        "identifier": "许可证标识",
+        "viewLicense": "查看许可证"
+      }
+    },
+    "nav": {
+      "title": "设置",
+      "general": "通用",
+      "planner": "计划",
+      "templates": "模板",
+      "ai": "AI",
+      "agents": "代理",
+      "data": "数据",
+      "about": "关于"
+    },
+    "smartIndex": {
+      "status": {
+        "title": "文件索引状态",
+        "description": "文件索引统计、错误和构建控制",
+        "filesIndexed": "已索引文件",
+        "coverage": "摘要覆盖率",
+        "coveragePartial": "已摘要 {{summarized}} / {{total}}",
+        "coverageComplete": "全部 {{count}} 个已摘要",
+        "workspaceFiles_one": "{{count}} 个文件",
+        "workspaceFiles_other": "{{count}} 个文件",
+        "updatedAgo": "更新于 {{time}}"
+      },
+      "actions": {
+        "rebuild": "重建索引",
+        "clear": "清除索引"
+      },
+      "progress": {
+        "summarizing": "正在摘要 {{workspace}}... {{processed}}/{{total}} 个文件",
+        "collecting": "正在收集文件..."
+      },
+      "errors": {
+        "title_one": "错误（{{count}}）",
+        "title_other": "错误（{{count}}）"
+      },
+      "results": {
+        "lastRebuild": "上次重建 {{time}}：已摘要 {{summarized}}，已复用 {{reused}}",
+        "lastRebuildWithExcluded": "上次重建 {{time}}：已摘要 {{summarized}}，已复用 {{reused}}，被 .aiignore 排除 {{excluded}}"
+      },
+      "info": {
+        "oneCatalog": "当启用任一代理文件（设置 → 代理）时，智能索引会以 Markdown 形式随之写入，外部代理（Claude Code、Codex、Gemini CLI）无需任何设置即可读取。",
+        "noProvider": "未配置 AI 提供商。目录仍会列出所有文件及其完整元数据；只是文件还没有 AI 摘要。在「设置 → AI」中添加密钥并重建即可生成摘要。",
+        "desktopOnly": "智能索引由拥有你数据的主机构建。此浏览器预览没有主机，因此这里禁用了构建。",
+        "serverSide": "你的服务器使用自己的 API 密钥构建和维护索引。记录变化时，后台更新会在那里运行。",
+        "incremental": "重建是增量的：未更改的文件会复用其摘要，因此只有新增或编辑过的文件会使用 AI。",
+        "offlineChanges": "在 desk 应用之外更改的文件（其他设备、直接编辑）会立即出现在目录中；它们的摘要会在下次重建时刷新。"
+      },
+      "config": {
+        "title": "文件索引设置",
+        "description": "摘要何时刷新，以及每个文件有多少内容会被发送用于摘要。"
+      },
+      "autoSummarize": {
+        "label": "保存时自动摘要",
+        "description": "在你编辑时保持摘要新鲜，并在首次保存时将新文件加入索引。",
+        "activeWarning": "在你最后一次保存约 5 秒后，正文确实发生变化的每个文件都会被重新摘要（每个文件一次 API 调用）。仅元数据的保存不会触发调用。"
+      },
+      "detail": {
+        "label": "摘要详细程度",
+        "description": "每个文件有多少内容会被发送用于摘要。越高 = 摘要越好，但 token 消耗越多。",
+        "options": {
+          "brief": "简要（约 125 token）",
+          "standard": "标准（约 500 token）",
+          "detailed": "详细（约 1250 token）"
+        }
+      },
+      "clearDialog": {
+        "title": "清除索引",
+        "description": "这将清空智能索引并删除生成的 CLAUDE.md、AGENTS.md、GEMINI.md 和 WORKSPACE_INDEX.md 文件。重建即可重新生成。此操作无法撤销。",
+        "confirmLabel": "清除索引"
+      },
+      "relativeTime": {
+        "never": "从未",
+        "justNow": "刚刚",
+        "minutesAgo_one": "{{count}} 分钟前",
+        "minutesAgo_other": "{{count}} 分钟前",
+        "hoursAgo_one": "{{count}} 小时前",
+        "hoursAgo_other": "{{count}} 小时前",
+        "daysAgo_one": "{{count}} 天前",
+        "daysAgo_other": "{{count}} 天前"
+      }
+    }
+  },
+  "modals": {
+    "newWorkspace": {
+      "title": "新建工作区",
+      "description": "创建一个工作区，用来分隔你工作中的一个领域，例如客户、副业项目或其他任何内容",
+      "nameLabel": "工作区名称",
+      "namePlaceholder": "例如：Acme Corp、副业项目、学习",
+      "folderHint": "文件夹：~/DeskMD/workspaces/{{folder}}",
+      "descriptionLabel": "描述",
+      "descriptionPlaceholder": "此工作区的简短描述...",
+      "overviewLabel": "工作区概览",
+      "overviewPlaceholder": "用途、重要背景，以及人们应该首先阅读的内容…",
+      "colorLabel": "颜色",
+      "submit": "创建工作区"
+    },
+    "newProject": {
+      "title": "新建项目",
+      "description": "在你的工作区中创建一个新项目",
+      "nameLabel": "项目名称",
+      "namePlaceholder": "例如：网站改版",
+      "descriptionLabel": "描述",
+      "descriptionPlaceholder": "显示在项目列表中的简短描述...",
+      "statusLabel": "状态",
+      "submit": "创建项目"
+    },
+    "newTask": {
+      "title": "新建任务",
+      "description": "在你的工作区中创建一个新任务",
+      "submit": "创建任务",
+      "fields": {
+        "title": "标题",
+        "project": "项目",
+        "priority": "优先级",
+        "dueDate": "截止日期"
+      },
+      "placeholders": {
+        "title": "需要做什么？",
+        "noProject": "无项目",
+        "priorityNone": "无",
+        "noDueDate": "无截止日期"
+      }
+    },
+    "newDoc": {
+      "title": "新建文档",
+      "description": "在你的工作区中创建一个新文档",
+      "submit": "创建文档",
+      "creatingIn": "创建位置：{{path}}",
+      "fields": {
+        "title": "标题",
+        "project": "项目"
+      },
+      "placeholders": {
+        "title": "文档标题",
+        "noProject": "无项目"
+      }
+    },
+    "newMeeting": {
+      "title": "新建会议",
+      "description": "在你的工作区中创建一个新会议",
+      "submit": "创建会议",
+      "fields": {
+        "title": "标题",
+        "project": "项目",
+        "date": "日期"
+      },
+      "placeholders": {
+        "title": "每周同步、一对一、迭代规划...",
+        "project": "选择项目"
+      }
+    },
+    "triageDetail": {
+      "title": "任务已移动",
+      "priorityLabel": "优先级（可选）",
+      "priorityPlaceholder": "选择优先级",
+      "noPriority": "无优先级",
+      "notesLabel": "备注（可选）",
+      "notesPlaceholder": "添加备注或详情...",
+      "skip": "跳过",
+      "saveDetails": "保存详情",
+      "homeTasks": "{{home}} 任务"
+    },
+    "editWorkspace": {
+      "title": "编辑工作区",
+      "description": "编辑工作区设置",
+      "nameLabel": "工作区名称",
+      "namePlaceholder": "例如：Acme Corp、副业项目、学习",
+      "descriptionLabel": "描述",
+      "descriptionPlaceholder": "此工作区的简短描述...",
+      "overviewLabel": "工作区概览",
+      "overviewPlaceholder": "用途、重要背景，以及人们应该首先阅读的内容…",
+      "colorLabel": "颜色",
+      "homeNote": "这是你的主工作区。它包含快速记录收件箱，无法删除，但你可以重命名并更改其颜色。",
+      "dangerZone": "危险区域",
+      "deleteNote": "永久删除此工作区及其所有项目、任务、文档和会议。",
+      "deleteButton": "删除工作区",
+      "deleteConfirmTitle": "删除工作区",
+      "deleteConfirmDescription": "这将永久删除「{{name}}」及其所有项目、任务、文档和会议。此操作无法撤销。",
+      "discardTitle": "放弃工作区更改？",
+      "discardDescription": "你未保存的工作区更改将会丢失。",
+      "discardAction": "放弃更改"
+    }
+  },
+  "editors": {
+    "doc": {
+      "titlePlaceholder": "文档标题",
+      "contentPlaceholder": "用 markdown 撰写你的文档...",
+      "deleteTitle": "删除文档",
+      "deleteDescription": "确定要删除此文档吗？此操作无法撤销。"
+    },
+    "task": {
+      "titlePlaceholder": "任务标题",
+      "contentPlaceholder": "添加备注、详情或清单项...",
+      "deleteTitle": "删除任务",
+      "deleteDescription": "确定要删除此任务吗？此操作无法撤销。"
+    },
+    "meeting": {
+      "titlePlaceholder": "会议标题",
+      "contentPlaceholder": "撰写你的会议记录...",
+      "deleteTitle": "删除会议",
+      "deleteDescription": "确定要删除此会议吗？此操作无法撤销。"
+    },
+    "aiChat": {},
+    "shared": {
+      "untitled": "无标题",
+      "saveTooltip": "保存（⌘S）",
+      "noChangesTooltip": "没有需要保存的更改",
+      "aiIncludedToggle": "已启用代理访问（点击以排除）",
+      "aiExcludedToggle": "已禁用代理访问（点击以包含）",
+      "aiExcludedByFolder": "已被文件夹排除：{{path}}",
+      "revealInFinder": "在访达中显示",
+      "entityName": {
+        "doc": "文档",
+        "task": "任务",
+        "meeting": "会议"
+      },
+      "entityNotFound": "未找到{{entity}}",
+      "closeTab": "关闭标签页",
+      "discardFailed": "无法放弃恢复草稿。你的编辑仍保持打开；请重试。",
+      "retryDiscard": "重试放弃",
+      "contextTransitionBlocked": "在切换数据上下文之前，请先解决或放弃未保存的编辑器更改。",
+      "loadFailed": {
+        "title": "无法加载{{entity}}内容",
+        "description": "Desk 没有打开空白副本，你的文件也未被更改。请检查连接并重试。"
+      },
+      "versionMismatch": {
+        "title": "Desk 客户端和服务器需要相同版本",
+        "description": "此客户端使用了服务器尚不支持的新版编辑器 API。没有文件被更改。请更新服务器后重试。"
+      },
+      "review": "审阅",
+      "conflict": {
+        "title": "此文件在 Desk 之外被更改",
+        "description": "选择要保留的版本。Desk 不会自动覆盖外部更改。",
+        "useExternal": "使用外部版本",
+        "keepDesk": "保留 Desk 版本"
+      }
+    }
+  },
+  "entities": {
+    "workspace": {
+      "colors": {
+        "blue": "蓝色",
+        "emerald": "翠绿色",
+        "amber": "琥珀色",
+        "red": "红色",
+        "violet": "紫罗兰色",
+        "pink": "粉色",
+        "slate": "石板色"
+      }
+    },
+    "project": {
+      "status": {
+        "active": "进行中",
+        "paused": "已暂停",
+        "completed": "已完成",
+        "archived": "已归档"
+      }
+    },
+    "task": {
+      "status": {
+        "backlog": "待处理",
+        "todo": "待办",
+        "doing": "进行中",
+        "waiting": "等待中",
+        "done": "已完成"
+      },
+      "priority": {
+        "high": "高",
+        "medium": "中",
+        "low": "低"
+      },
+      "pluralLowercase": "任务"
+    }
+  },
+  "emptyStates": {
+    "projects": {
+      "noMatches": "没有匹配的项目。",
+      "noProjects": "暂无项目。"
+    },
+    "tasks": {
+      "noResults": {
+        "title": "未找到任务"
+      }
+    },
+    "meetings": {
+      "none": {
+        "title": "暂无会议",
+        "description": "创建你的第一条会议记录以开始"
+      }
+    }
+  },
+  "toasts": {
+    "settings": {
+      "themeSet": "主题已设为{{theme}}",
+      "sidebarCollapsed": "侧边栏已折叠",
+      "sidebarExpanded": "侧边栏已展开",
+      "apiKeySaved": "{{provider}} 密钥已保存到钥匙串",
+      "providerSet": "提供商已设为{{provider}}",
+      "modelSet": "模型已设为{{model}}",
+      "usageCleared": "使用历史已清除",
+      "privacyAcknowledgementReset": "AI 隐私确认已重置",
+      "agentFileEnabled": "已启用 {{file}}",
+      "agentFileRemoved": "已移除 {{file}}",
+      "indexBuilt": "索引已构建：在 {{workspaces}} 个工作区中索引了 {{files}} 个文件",
+      "catalogCleared": "文件索引已清除",
+      "autoSummarizeEnabled": "已启用保存时自动摘要",
+      "autoSummarizeDisabled": "已禁用保存时自动摘要",
+      "settingsReset": "设置已重置为默认值",
+      "dataPathUpdated": "数据路径已更新",
+      "switchedToPath": "已切换到 {{path}} 并使用现有数据",
+      "dataPathUpdatedCreateWorkspace": "数据路径已更新。创建你的第一个工作区。",
+      "dataPathUpdatedWizard": "数据路径已更新。设置向导将引导你完成。"
+    },
+    "workspace": {
+      "create": {
+        "success": "工作区已创建",
+        "error": "创建工作区失败"
+      },
+      "update": {
+        "success": "工作区已更新",
+        "error": "更新工作区失败"
+      },
+      "delete": {
+        "success": "已删除工作区「{{name}}」",
+        "error": "删除工作区失败"
+      }
+    },
+    "project": {
+      "create": {
+        "success": "项目已创建",
+        "error": "创建项目失败"
+      },
+      "update": {
+        "error": "更新项目失败"
+      },
+      "delete": {
+        "success": "项目已删除",
+        "error": "删除项目失败"
+      }
+    },
+    "common": {
+      "renamed": "已重命名"
+    },
+    "task": {
+      "created": "任务已创建"
+    },
+    "doc": {
+      "created": "文档已创建",
+      "pathCopied": "路径已复制到剪贴板",
+      "createError": "无法创建文件",
+      "importDocs_one": "已导入 {{count}} 个文档",
+      "importDocs_other": "已导入 {{count}} 个文档",
+      "importFiles_one": "已导入 {{count}} 个文件",
+      "importFiles_other": "已导入 {{count}} 个文件",
+      "importMixed": "已导入 {{docs}} 个文档和 {{files}} 个文件",
+      "convertFailed_one": "无法转换 {{name}}",
+      "convertFailed_other": "无法转换 {{count}} 个文件"
+    },
+    "meeting": {
+      "created": "会议已创建",
+      "deleted": "会议已删除"
+    },
+    "folder": {
+      "includedInAI": "已将「{{name}}」纳入 AI",
+      "excludedFromAI": "已将「{{name}}」排除出 AI"
+    },
+    "editor": {
+      "docDeleted": "文档已删除",
+      "taskDeleted": "任务已删除",
+      "meetingDeleted": "会议已删除",
+      "moveProject": {
+        "saveFailed": "保存失败。无法移动{{entity}}。",
+        "failed": "无法移动{{entity}}"
+      }
+    },
+    "link": {
+      "notFound": "未找到链接的笔记"
+    },
+    "ai": {
+      "inclusionUpdateFailed": "更新 AI 设置失败"
+    },
+    "overview": {
+      "update": {
+        "error": "无法保存概览"
+      }
+    }
+  },
+  "errors": {
+    "startup": {
+      "title": "Desk 无法启动",
+      "description": "Desk 无法设置其数据文件夹。你的文件是安全的。这是启动问题，而非数据丢失。",
+      "hint": "请确保数据文件夹存在且可读，然后重试。"
+    },
+    "connection": {
+      "notAvailableRemote": "连接到服务器时不可用。"
+    },
+    "generic": {
+      "unexpected": {
+        "title": "出错了",
+        "description": "发生了意外错误。你可以重试或重新加载页面。"
+      }
+    },
+    "settings": {
+      "apiKeyEmpty": "API 密钥不能为空",
+      "apiKeySaveFailed": "保存 API 密钥失败：{{message}}",
+      "apiKeySaveFailedWithHint": "保存 API 密钥失败：{{message}}\n\n{{hint}}",
+      "agentFilesUpdateFailed": "无法更新代理文件：{{message}}",
+      "indexBuildFailed": "索引构建失败：{{message}}",
+      "catalogClearedPartial": "索引已清除，但部分代理文件无法删除：{{message}}"
+    },
+    "setup": {
+      "checkDataFolder": "无法访问「{{path}}」。请检查文件夹路径是否有效，以及 Desk 是否可写入，然后重试。",
+      "createDataFolder": "设置无法在「{{path}}」创建你的数据文件夹。请确保该位置存在且 Desk 有写入权限，然后重试。"
+    },
+    "task": {
+      "createFailed": "创建任务失败"
+    },
+    "doc": {
+      "createFailed": "创建文档失败",
+      "renameFailed": "重命名文档失败",
+      "deleteFailed": "删除文档失败",
+      "deleteFileFailed": "删除文件失败",
+      "moveFailed": "移动文档失败",
+      "openFailed": "无法打开文件",
+      "revealFailed": "无法在访达中显示",
+      "copyPathFailed": "无法复制路径",
+      "cannotRevealBrowser": "无法在浏览器模式下显示文件",
+      "cannotOpenBrowser": "无法在浏览器模式下打开文件",
+      "importFailed": "导入文件失败",
+      "crossScopeMove": "尚不支持跨范围移动。移动必须保持在同一工作区或项目内。"
+    },
+    "meeting": {
+      "createFailed": "创建会议失败",
+      "deleteFailed": "删除会议失败"
+    },
+    "folder": {
+      "createFailed": "创建文件夹失败",
+      "renameFailed": "重命名文件夹失败",
+      "deleteFailed": "删除文件夹失败",
+      "moveFailed": "移动文件夹失败"
+    },
+    "editor": {
+      "deleteDocFailed": "删除文档失败",
+      "deleteTaskFailed": "删除任务失败",
+      "deleteMeetingFailed": "删除会议失败"
+    },
+    "email": {
+      "openFailed": "无法打开邮件"
+    },
+    "update": {
+      "checkFailed": "检查更新失败",
+      "installFailed": "安装更新失败"
+    },
+    "ai": {
+      "quota": "已超出配额。请向提供商查看你的套餐和计费情况。",
+      "auth": "API 密钥被拒绝。请检查其是否有效。",
+      "rate-limit": "已达到速率限制。请稍后重试。",
+      "network": "无法连接 AI 提供商。请检查你的网络连接。",
+      "model-not-found": "所选模型不可用。",
+      "unknown": "AI 请求失败。"
+    }
+  },
+  "email": {
+    "dropOverlay": {
+      "title": "拖入邮件以在 Desk 中打开",
+      "subtitle": "Apple Mail · Outlook · Thunderbird"
+    },
+    "viewer": {
+      "noSubject": "（无主题）",
+      "showFull": "显示完整邮件",
+      "hideFull": "隐藏完整邮件",
+      "toLabel": "收件人：",
+      "ccLabel": "抄送：",
+      "viaSource": "通过 {{source}}",
+      "source": {
+        "appleMail": "Apple Mail",
+        "outlook": "Outlook",
+        "thunderbird": "Thunderbird",
+        "other": "邮件"
+      }
+    },
+    "replyHelper": {
+      "copyEmail": "复制邮件",
+      "copied": "已复制",
+      "extractTasks": "提取任务",
+      "comingSoon": "（即将推出）",
+      "mcpHint": "复制邮件，然后在你的 AI 连接器（Claude、ChatGPT）中运行「draft-email-reply」提示即可起草回复。"
+    }
+  },
+  "search": {
+    "globalSearch": {
+      "placeholder": "搜索任务、文档、项目...",
+      "noResults": "未找到结果。",
+      "buildingIndex": "正在构建搜索索引...",
+      "unavailable": "搜索暂不可用。请稍后重试。",
+      "recentHeading": "最近更新",
+      "resultsHeading": "结果",
+      "scope": {
+        "label": "搜索范围",
+        "all": "所有位置",
+        "workspace": "当前工作区"
+      },
+      "types": {
+        "task": "任务",
+        "doc": "文档",
+        "meeting": "会议",
+        "project": "项目"
+      }
+    },
+    "commandPalette": {
+      "placeholder": "搜索你的工作内容或运行命令...",
+      "quickActionsHeading": "快捷操作",
+      "actionsHeading": "操作",
+      "disabled": {
+        "workspace": "请先选择工作区",
+        "meetingProject": "请先创建项目"
+      },
+      "commands": {
+        "captureTask": { "label": "记录任务到收件箱", "aliases": "记录|收件箱|记住|快速任务" },
+        "createTask": { "label": "创建任务", "aliases": "新任务|添加任务|待办" },
+        "createDoc": { "label": "创建文档", "aliases": "新文档|添加文档|文档|笔记" },
+        "createMeeting": { "label": "创建会议", "aliases": "新会议|添加会议|日程" },
+        "createProject": { "label": "创建项目", "aliases": "新项目|添加项目" },
+        "switchWorkspace": { "label": "切换工作区", "aliases": "工作区|更改工作区|团队|空间" },
+        "goDashboard": { "label": "前往仪表盘", "aliases": "主页|概览" },
+        "goPlanner": { "label": "前往计划", "aliases": "计划|日历|周|日程" },
+        "goTasks": { "label": "前往任务", "aliases": "任务|待办" },
+        "goDocs": { "label": "前往文档", "aliases": "文档|笔记" },
+        "goMeetings": { "label": "前往会议", "aliases": "会议|日程" },
+        "goProjects": { "label": "前往项目", "aliases": "项目" },
+        "openSettings": { "label": "打开设置", "aliases": "偏好|配置" },
+        "viewShortcuts": { "label": "查看键盘快捷键", "aliases": "按键|热键|帮助" }
+      },
+      "workspaces": {
+        "placeholder": "搜索工作区...",
+        "heading": "工作区",
+        "current": "当前",
+        "noResults": "未找到工作区",
+        "back": "返回命令"
+      },
+      "capture": {
+        "title": "记录任务到收件箱",
+        "description": "现在添加，稍后整理。",
+        "placeholder": "任务标题...",
+        "submit": "记录",
+        "back": "返回搜索",
+        "success": "任务已记录到收件箱",
+        "error": "无法记录任务"
+      },
+      "footer": {
+        "navigate": "↑↓ 导航",
+        "open": "↵ 打开",
+        "close": "Esc 关闭",
+        "enterCapture": "↵ 记录",
+        "escapeBack": "Esc 返回"
+      },
+      "shortcuts": {
+        "title": "键盘快捷键",
+        "description": "在 macOS 上使用 Command，在 Windows 或 Linux 上使用 Control。",
+        "palette": "打开搜索和命令",
+        "save": "保存",
+        "closeTab": "关闭当前标签页",
+        "switchTabs": "上一个 / 下一个标签页"
+      }
+    }
+  },
+  "smartIndex": {},
+  "setup": {
+    "welcome": {
+      "title": "欢迎使用 Desk。",
+      "subtitle": "你的项目、任务、文档和会议，都是你拥有的纯 Markdown 文件。"
+    },
+    "location": {
+      "title": "Desk 应该把你的工作内容保存在哪里？",
+      "subtitle": "你可以随时在设置中更改。",
+      "localTitle": "本机",
+      "localDescription": "将文件存储在本地计算机上。",
+      "remoteTitle": "desk.md 服务器",
+      "remoteDescription": "连接到已部署的 desk.md 服务器（例如在你自己的 NAS 上），即可从手机和其他设备访问。"
+    },
+    "server": {
+      "title": "连接到你的服务器",
+      "subtitle": "输入你的 desk.md 服务器地址。你将在下一个界面登录。",
+      "label": "服务器地址",
+      "hint": "如果省略，默认使用 https://。地址必须使用 https。",
+      "connect": "继续",
+      "invalidUrl": "请输入有效的服务器地址。",
+      "httpsRequired": "服务器必须使用 https。http 地址会以未加密方式发送你的登录令牌。"
+    },
+    "dataFolder": {
+      "title": "我们应该把你的文件存储在哪里？",
+      "subtitle": "选择任意文件夹。Desk 会为你创建结构，你之后也可以移动它。",
+      "label": "数据文件夹",
+      "pickerTitle": "选择数据文件夹",
+      "browseTitle": "浏览文件夹"
+    },
+    "existingDetected": {
+      "title": "你在这里已经有 Desk 数据。",
+      "description_one": "在此文件夹中找到 {{count}} 个工作区。继续之前的工作，或全新开始。",
+      "description_other": "在此文件夹中找到 {{count}} 个工作区。继续之前的工作，或全新开始。",
+      "useExisting": "使用现有数据",
+      "startFresh": "全新开始"
+    },
+    "workspace": {
+      "title": "为你的工作区命名。",
+      "subtitle": "这是你的主页，用于个人笔记和记录收件箱。之后可以为客户、项目或其他领域添加更多工作区。",
+      "nameLabel": "名称",
+      "namePlaceholder": "个人",
+      "finish": "完成"
+    }
+  },
+  "auth": {
+    "create": {
+      "title": "创建你的账户",
+      "subtitle": "设置用于保护此 desk 的账户。",
+      "submit": "创建账户"
+    },
+    "login": {
+      "title": "欢迎回来",
+      "subtitle": "登录你的 desk。",
+      "submit": "登录"
+    },
+    "fields": {
+      "email": "邮箱",
+      "password": "密码"
+    },
+    "errors": {
+      "generic": "出错了。请重试。"
+    },
+    "signOut": "退出登录",
+    "account": {
+      "title": "账户",
+      "description": "你已登录此托管 desk。",
+      "signOutLabel": "退出登录",
+      "signOutDescription": "结束你在此设备上的会话。"
+    },
+    "consent": {
+      "title": "{{app}} 想要连接",
+      "unknownApp": "某个应用程序",
+      "subtitle": "它将能够通过 desk.md 连接器读取你的工作区、文档、任务和会议。",
+      "scopesTitle": "它还可以：",
+      "scopes": {
+        "openid": "确认你的身份",
+        "profile": "查看你的基本资料",
+        "email": "查看你的邮箱地址",
+        "offline_access": "保持连接，无需再次登录"
+      },
+      "allow": "允许",
+      "deny": "拒绝",
+      "error": "无法完成请求。请重试。"
+    }
+  },
+  "tooltips": {
+    "priorityIcon": "{{label}}优先级",
+    "appShell": {
+      "search": "搜索（⌘K）"
+    }
+  },
+  "menus": {
+    "common": {
+      "revealInFinder": "在访达中显示",
+      "copyPath": "复制路径"
+    },
+    "taskContextMenu": {
+      "highlightForFocus": "标记为重点关注",
+      "removeHighlight": "取消重点关注"
+    },
+    "docContextMenu": {
+      "moveTo": "移动到...",
+      "workspaceLevel": "工作区文档"
+    },
+    "folderContextMenu": {
+      "newDoc": "新建文档",
+      "newSubfolder": "新建子文件夹",
+      "includeInAI": "纳入 AI",
+      "excludeFromAI": "排除出 AI"
+    },
+    "assetContextMenu": {
+      "openInDefaultApp": "用默认应用打开"
+    },
+    "workspaceSwitcher": {
+      "newWorkspace": "新建工作区"
+    },
+    "tabContextMenu": {
+      "close": "关闭",
+      "closeOthers": "关闭其他",
+      "moreTabs_one": "还有 {{count}} 个标签页",
+      "moreTabs_other": "还有 {{count}} 个标签页",
+      "unsavedTabDescription": "「{{title}}」有未保存的更改。是否要在关闭前保存？"
+    }
+  },
+  "updates": {
+    "available": "有可用更新：v{{version}}",
+    "description": "新版本的 Desk 已准备好安装。",
+    "updateAndRestart": "更新并重启",
+    "skip": "跳过"
+  },
+  "unsavedChanges": {
+    "title": "未保存的更改",
+    "description": "以下内容有未保存的更改：{{tabs}}{{more}}。是否要在退出前保存？",
+    "more_one": "以及另外 {{count}} 个",
+    "more_other": "以及另外 {{count}} 个"
+  },
+  "ui": {
+    "colorPicker": {
+      "customColor": "自定义颜色"
+    },
+    "dateField": {
+      "placeholder": "选择日期",
+      "clearAriaLabel": "清除日期"
+    },
+    "formField": {
+      "optional": "（可选）"
+    },
+    "loadingState": {
+      "defaultLabel": "内容",
+      "title": "正在加载{{label}}…"
+    },
+    "saveChanges": {
+      "title": "未保存的更改",
+      "description": "是否要保存你所做的更改？"
+    },
+    "saveStatus": {
+      "failed": "保存失败"
+    },
+    "viewMode": {
+      "list": "列表视图",
+      "kanban": "看板视图"
+    },
+    "metadataToolbar": {
+      "none": "无",
+      "noProject": "无项目",
+      "workspaceLevel": "工作区",
+      "addDueDate": "添加截止日期",
+      "addDate": "添加日期"
+    },
+    "richTextEditor": {
+      "placeholder": "写点什么…",
+      "bold": "加粗",
+      "italic": "斜体",
+      "strike": "删除线",
+      "inlineCode": "行内代码",
+      "link": "添加或编辑链接",
+      "unlink": "移除链接",
+      "linkUrl": "链接 URL",
+      "linkPlaceholder": "https://example.com",
+      "table": {
+        "more": "更多表格操作",
+        "addRowBefore": "在上方添加行",
+        "addRowAfter": "在下方添加行",
+        "addColumnBefore": "在左侧添加列",
+        "addColumnAfter": "在右侧添加列",
+        "deleteRow": "删除行",
+        "deleteColumn": "删除列",
+        "deleteTable": "删除表格",
+        "mergeCells": "合并单元格",
+        "splitCell": "拆分单元格",
+        "toggleHeaderRow": "切换标题行"
+      },
+      "code": {
+        "language": "代码语言",
+        "plainText": "纯文本",
+        "copy": "复制代码",
+        "copied": "代码已复制",
+        "copyFailed": "无法复制代码"
+      }
+    },
+    "noteLinkPicker": {
+      "placeholder": "搜索要链接的笔记…",
+      "noNotesFound": "未找到笔记。",
+      "buildingIndex": "正在构建搜索索引…",
+      "searchUnavailable": "搜索暂不可用。请稍后重试。",
+      "results": "结果",
+      "recent": "最近",
+      "types": {
+        "task": "任务",
+        "doc": "文档",
+        "meeting": "会议"
+      }
+    },
+    "command": {
+      "searchTitle": "搜索与命令",
+      "searchDescription": "搜索你的工作内容或运行命令"
+    },
+    "editorBanners": {
+      "fileMoved": {
+        "title": "文件已移动",
+        "description": "此文件已在外部被移动或重命名。",
+        "newLocation": "新位置：",
+        "continueEditing": "继续编辑"
+      },
+      "fileDeleted": {
+        "title": "文件已删除",
+        "description": "此文件已从文件系统中删除。",
+        "unsavedHint": "你有未保存的编辑。恢复它们以重新创建文件。",
+        "parentMissing": "所在文件夹已不存在。Desk 会保留你的草稿，但不会重建已删除的工作区或项目。",
+        "restoreFromEdits": "从编辑内容恢复",
+        "closeTab": "关闭标签页"
+      },
+      "externalChange": "检测到外部更改"
+    },
+    "slashCommands": {
+      "empty": "没有匹配的命令",
+      "heading1": {
+        "title": "一级标题",
+        "description": "大号章节标题"
+      },
+      "heading2": {
+        "title": "二级标题",
+        "description": "中号章节标题"
+      },
+      "heading3": {
+        "title": "三级标题",
+        "description": "小号章节标题"
+      },
+      "bulletList": {
+        "title": "无序列表",
+        "description": "项目符号列表"
+      },
+      "numberedList": {
+        "title": "有序列表",
+        "description": "编号列表"
+      },
+      "taskList": {
+        "title": "任务列表",
+        "description": "带复选框的任务列表"
+      },
+      "table": {
+        "title": "表格",
+        "description": "插入表格",
+        "pickerTitle": "表格大小",
+        "pickerLabel": "选择表格大小",
+        "dimensions": "{{rows}} × {{cols}}"
+      },
+      "codeBlock": {
+        "title": "代码块",
+        "description": "代码块"
+      },
+      "blockquote": {
+        "title": "引用块",
+        "description": "块级引用"
+      },
+      "divider": {
+        "title": "分隔线",
+        "description": "水平分隔线"
+      },
+      "link": {
+        "title": "链接",
+        "description": "插入笔记链接"
+      }
+    }
+  },
+  "tabs": {
+    "desk": "Desk",
+    "emailDefault": "邮件"
+  }
+}
