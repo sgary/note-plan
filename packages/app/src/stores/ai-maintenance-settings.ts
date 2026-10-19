@@ -19,10 +19,13 @@ interface AIMaintenanceSettingsState {
   providerType: AIProviderType;
   /** Model ID per provider (empty = provider default). */
   modelByProvider: Record<string, string>;
+  /** Base URL for the custom (OpenAI-compatible) provider. Not secret. */
+  customBaseURL: string;
   setAutoSummarizeOnSave: (enabled: boolean) => void;
   setSummaryDetail: (detail: SummaryDetail) => void;
   setProviderType: (type: AIProviderType) => void;
   setModelForProvider: (provider: AIProviderType, model: string) => void;
+  setCustomBaseURL: (baseURL: string) => void;
 }
 
 export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>()(
@@ -37,6 +40,7 @@ export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>(
         set((state) => ({
           modelByProvider: { ...state.modelByProvider, [provider]: model },
         })),
+      setCustomBaseURL: (baseURL) => set({ customBaseURL: baseURL }),
     }),
     {
       name: "desk-ai-maintenance",
@@ -46,6 +50,7 @@ export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>(
         summaryDetail: state.summaryDetail,
         providerType: state.providerType,
         modelByProvider: state.modelByProvider,
+        customBaseURL: state.customBaseURL,
       }),
     }
   )

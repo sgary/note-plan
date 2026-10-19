@@ -100,6 +100,17 @@ async function bootstrap() {
     setStorage(new GuardStorageProvider());
     setDeskService(createRemoteDeskService(window.location.origin));
   } else {
+    // Desktop/native: AI requests to user-supplied endpoints can't be enumerated in the
+    // webview CSP `connect-src`, so route them through the Tauri HTTP plugin (Rust reqwest,
+    // bypasses CSP/CORS). Only the `custom` provider uses this seam (see core transport).
+    // Kept inside this VITE_DESK_HOSTED-gated branch so the hosted web bundle never pulls in
+    // @tauri-apps/plugin-http.
+    if (isTauri()) {
+      const { setAIFetchResolver } = await import("@desk/core/host");
+      const { nativeFetch } = await import("./lib/native-http");
+      setAIFetchResolver(() => nativeFetch);
+    }
+
     // Native remote mode: the same Tauri app can point at a remote
     // desk.md server instead of local disk. "Native" is detected at runtime via
     // isTauri() — true on every Tauri desktop platform (macOS/Windows/Linux) — so no
