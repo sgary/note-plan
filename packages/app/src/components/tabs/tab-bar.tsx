@@ -36,7 +36,7 @@ const TAB_ICONS: Record<TabType, React.ElementType> = {
   email: Mail,
 };
 
-const WORKSPACE_SCOPED_PREFIXES = ["/tasks", "/docs", "/meetings", "/projects"];
+const WORKSPACE_SCOPED_PREFIXES = ["/tasks", "/docs", "/meetings", "/company-meetings", "/projects"];
 
 function isWorkspaceScopedPage(pathname: string): boolean {
   return WORKSPACE_SCOPED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
@@ -48,6 +48,7 @@ function getPageNameKey(pathname: string): string {
     "/tasks": "nav.sidebar.tasks",
     "/docs": "nav.sidebar.docs",
     "/meetings": "nav.sidebar.meetings",
+    "/company-meetings": "nav.sidebar.companyMeetings",
     "/projects": "nav.sidebar.projects",
     "/settings": "nav.sidebar.settings",
   };

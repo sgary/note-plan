@@ -21,7 +21,7 @@ import {
   moveMarkdownFile,
   allocateUniqueFilePath,
 } from "./file-operations";
-import { SPECIAL_DIRS, PATH_SEGMENTS } from "./constants";
+import { SPECIAL_DIRS, PATH_SEGMENTS, WORKSPACE_LEVEL_PROJECT_ID } from "./constants";
 import { getProjectPath, getMeetingsPath, getProjectsPath, getUnassignedPath } from "./paths";
 import { getFileTreeService } from "./file-cache";
 
@@ -138,32 +138,41 @@ async function readProjectMeetings(
  * Get all meetings for a workspace (across all projects + unassigned)
  */
 export async function getMeetings(workspaceId: string): Promise<Meeting[]> {
+  const allMeetings: Meeting[] = [];
+
   const projectsPath = await getProjectsPath(workspaceId);
-
-  if (!(await getStorage().exists(projectsPath))) {
-    return [];
+  if (await getStorage().exists(projectsPath)) {
+    const projectEntries = await getStorage().readDir(projectsPath);
+    const projectMeetingGroups = await Promise.all(
+      projectEntries
+        .filter(
+          (entry) =>
+            entry.isDirectory
+            && !entry.name.startsWith(".")
+            && entry.name !== SPECIAL_DIRS.UNASSIGNED,
+        )
+        .map(async (entry) => {
+          const projectPath = await joinPath(projectsPath, entry.name);
+          return readProjectMeetings(workspaceId, entry.name, projectPath);
+        }),
+    );
+    allMeetings.push(...projectMeetingGroups.flat());
   }
-
-  const projectEntries = await getStorage().readDir(projectsPath);
-  const projectMeetingGroups = await Promise.all(
-    projectEntries
-      .filter(
-        (entry) =>
-          entry.isDirectory
-          && !entry.name.startsWith(".")
-          && entry.name !== SPECIAL_DIRS.UNASSIGNED,
-      )
-      .map(async (entry) => {
-        const projectPath = await joinPath(projectsPath, entry.name);
-        return readProjectMeetings(workspaceId, entry.name, projectPath);
-      }),
-  );
-  const allMeetings = projectMeetingGroups.flat();
 
   const unassignedPath = await getUnassignedPath(workspaceId);
   if (await getStorage().exists(unassignedPath)) {
-    const unassignedMeetings = await readProjectMeetings(workspaceId, SPECIAL_DIRS.UNASSIGNED, unassignedPath);
-    allMeetings.push(...unassignedMeetings);
+    allMeetings.push(
+      ...(await readProjectMeetings(workspaceId, SPECIAL_DIRS.UNASSIGNED, unassignedPath)),
+    );
+  }
+
+  // Workspace-level (company) meetings: <workspace>/meetings/
+  const companyPath = await getProjectPath(workspaceId, WORKSPACE_LEVEL_PROJECT_ID);
+  const companyMeetingsPath = await joinPath(companyPath, PATH_SEGMENTS.MEETINGS);
+  if (await getStorage().exists(companyMeetingsPath)) {
+    allMeetings.push(
+      ...(await readProjectMeetings(workspaceId, WORKSPACE_LEVEL_PROJECT_ID, companyPath)),
+    );
   }
 
   allMeetings.sort((a, b) => compareDatesDesc(a.date, b.date));

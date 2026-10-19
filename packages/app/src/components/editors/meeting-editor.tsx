@@ -17,6 +17,7 @@ import { useTabStore } from "@/stores/tabs";
 import { cn } from "@/lib/utils";
 import { pageWidthClasses } from "@/lib/enterprise-ui";
 import { EditorConflictDialog } from "./editor-conflict-dialog";
+import { isCompanyMeeting } from "@/lib/meeting-scope";
 
 interface MeetingEditorProps {
   meetingId: string;
@@ -39,6 +40,10 @@ export function MeetingEditor({ meetingId, workspaceId, projectId, onClose }: Me
   const moveMeetingToProject = useMoveMeetingToProject();
   const moveEntityTabToProject = useTabStore((state) => state.moveEntityTabToProject);
   const { data: projects = [] } = useProjects(workspaceId);
+
+  // A company meeting has no project; its location is shown as a static chip instead of
+  // a project dropdown, so it can't be "moved" by picking a project.
+  const isCompany = !!meeting && isCompanyMeeting(meeting);
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showConflict, setShowConflict] = useState(false);
@@ -190,7 +195,9 @@ export function MeetingEditor({ meetingId, workspaceId, projectId, onClose }: Me
             onDateChange={handleDateChange}
             dateLabel="Date"
             projectId={currentProjectId}
-            onProjectChange={handleProjectChange}
+            onProjectChange={isCompany ? undefined : handleProjectChange}
+            projectReadOnly={isCompany}
+            projectLabel={isCompany ? t("ui.metadataToolbar.companyMeeting") : undefined}
             projects={projects.map((p) => ({ id: p.id, name: p.name }))}
           />
           <div className="h-px bg-border/40 mt-4" />
