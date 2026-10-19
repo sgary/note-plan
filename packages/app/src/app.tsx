@@ -11,6 +11,7 @@ const DashboardPage = lazy(() => import("./pages/dashboard"));
 const TasksPage = lazy(() => import("./pages/tasks"));
 const DocsPage = lazy(() => import("./pages/docs"));
 const MeetingsPage = lazy(() => import("./pages/meetings"));
+const CompanyMeetingsPage = lazy(() => import("./pages/company-meetings"));
 const SettingsPage = lazy(() => import("./pages/settings"));
 const ProjectsPage = lazy(() => import("./pages/projects"));
 const PlannerPage = lazy(() => import("./pages/planner"));
@@ -37,6 +38,7 @@ function AppTree() {
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/docs" element={<DocsPage />} />
           <Route path="/meetings" element={<MeetingsPage />} />
+          <Route path="/company-meetings" element={<CompanyMeetingsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
