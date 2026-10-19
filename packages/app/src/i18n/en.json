@@ -64,7 +64,8 @@
       "planner": "Planner",
       "tasks": "Tasks",
       "docs": "Docs",
-      "meetings": "Meetings",
+      "meetings": "Project meetings",
+      "companyMeetings": "Company meetings",
       "projects": "Projects",
       "settings": "Settings",
       "desk": "Desk",
@@ -1367,6 +1368,7 @@
     "metadataToolbar": {
       "none": "None",
       "noProject": "No project",
+      "companyMeeting": "Company",
       "workspaceLevel": "Workspace",
       "addDueDate": "Add due date",
       "addDate": "Add date"

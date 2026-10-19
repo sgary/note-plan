@@ -64,7 +64,8 @@
       "planner": "计划",
       "tasks": "任务",
       "docs": "文档",
-      "meetings": "会议",
+      "meetings": "项目会议",
+      "companyMeetings": "公司会议",
       "projects": "项目",
       "settings": "设置",
       "desk": "Desk",
@@ -1367,6 +1368,7 @@
     "metadataToolbar": {
       "none": "无",
       "noProject": "无项目",
+      "companyMeeting": "公司会议",
       "workspaceLevel": "工作区",
       "addDueDate": "添加截止日期",
       "addDate": "添加日期"
