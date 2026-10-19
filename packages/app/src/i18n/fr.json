@@ -452,7 +452,8 @@
       },
       "providers": {
         "openai": "OpenAI",
-        "anthropic": "Anthropic"
+        "anthropic": "Anthropic",
+        "custom": "Personnalisé"
       },
       "credentials": {
         "title": "Identifiants",
@@ -460,16 +461,30 @@
       },
       "model": {
         "label": "Modèle",
-        "helperText": "Modèle par défaut du fournisseur"
+        "helperText": "Modèle par défaut du fournisseur",
+        "freeTextHelperText": "ID du modèle exactement comme l'attend le point de terminaison, p. ex. deepseek-chat"
       },
       "apiKey": {
         "label": "Clé API ({{provider}})",
         "placeholderOpenai": "sk-...",
         "placeholderAnthropic": "sk-ant-...",
+        "placeholderCustom": "Clé API",
         "showAriaLabel": "Afficher la clé API",
         "hideAriaLabel": "Masquer la clé API",
         "storedNotice": "Stockée dans le trousseau du système (Keychain / Credential Manager / Secret Service).",
         "notConfigured": "Clé du fournisseur non configurée."
+      },
+      "customBaseUrl": {
+        "label": "URL de base",
+        "helperText": "Point de terminaison compatible OpenAI, p. ex. https://ark.cn-beijing.volces.com/api/v3",
+        "placeholder": "https://…",
+        "insecureWarning": "Cette adresse utilise http ; votre clé API sera envoyée en clair."
+      },
+      "testConnection": {
+        "button": "Tester la connexion",
+        "testing": "Test en cours…",
+        "success": "La connexion fonctionne",
+        "failed": "Échec de la connexion"
       },
       "browserMode": {
         "title": "Les clés d'IA sont gérées dans l'application de bureau",
@@ -1095,6 +1110,7 @@
       "rate-limit": "Limite de débit atteinte. Réessayez dans un instant.",
       "network": "Impossible de joindre le fournisseur d'IA. Vérifiez votre connexion.",
       "model-not-found": "Le modèle sélectionné n'est pas disponible.",
+      "invalid-config": "Le fournisseur n'est pas entièrement configuré — définissez une URL de base et un modèle.",
       "unknown": "La requête IA a échoué."
     }
   },

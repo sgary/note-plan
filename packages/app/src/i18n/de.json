@@ -452,7 +452,8 @@
       },
       "providers": {
         "openai": "OpenAI",
-        "anthropic": "Anthropic"
+        "anthropic": "Anthropic",
+        "custom": "Benutzerdefiniert"
       },
       "credentials": {
         "title": "Zugangsdaten",
@@ -460,16 +461,30 @@
       },
       "model": {
         "label": "Modell",
-        "helperText": "Standardmodell für den Anbieter"
+        "helperText": "Standardmodell für den Anbieter",
+        "freeTextHelperText": "Modell-ID genau so, wie der Endpunkt sie erwartet, z. B. deepseek-chat"
       },
       "apiKey": {
         "label": "API-Schlüssel ({{provider}})",
         "placeholderOpenai": "sk-...",
         "placeholderAnthropic": "sk-ant-...",
+        "placeholderCustom": "API-Schlüssel",
         "showAriaLabel": "API-Schlüssel anzeigen",
         "hideAriaLabel": "API-Schlüssel verbergen",
         "storedNotice": "Im Schlüsselbund des Betriebssystems gespeichert (Keychain / Credential Manager / Secret Service).",
         "notConfigured": "Anbieterschlüssel nicht konfiguriert."
+      },
+      "customBaseUrl": {
+        "label": "Basis-URL",
+        "helperText": "OpenAI-kompatibler Endpunkt, z. B. https://ark.cn-beijing.volces.com/api/v3",
+        "placeholder": "https://…",
+        "insecureWarning": "Diese Adresse verwendet http; dein API-Schlüssel wird unverschlüsselt gesendet."
+      },
+      "testConnection": {
+        "button": "Verbindung testen",
+        "testing": "Wird getestet…",
+        "success": "Verbindung funktioniert",
+        "failed": "Verbindung fehlgeschlagen"
       },
       "browserMode": {
         "title": "KI-Schlüssel werden in der Desktop-App verwaltet",
@@ -1095,6 +1110,7 @@
       "rate-limit": "Ratenlimit erreicht. Versuche es gleich noch einmal.",
       "network": "Der AI-Anbieter war nicht erreichbar. Prüfe deine Verbindung.",
       "model-not-found": "Das gewählte Modell ist nicht verfügbar.",
+      "invalid-config": "Der Anbieter ist nicht vollständig konfiguriert — lege eine Basis-URL und ein Modell fest.",
       "unknown": "Die AI-Anfrage ist fehlgeschlagen."
     }
   },

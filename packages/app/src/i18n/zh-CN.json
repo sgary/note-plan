@@ -452,7 +452,8 @@
       },
       "providers": {
         "openai": "OpenAI",
-        "anthropic": "Anthropic"
+        "anthropic": "Anthropic",
+        "custom": "自定义"
       },
       "credentials": {
         "title": "凭据",
@@ -460,16 +461,30 @@
       },
       "model": {
         "label": "模型",
-        "helperText": "提供商的默认模型"
+        "helperText": "提供商的默认模型",
+        "freeTextHelperText": "模型 ID 需与端点要求完全一致，例如 deepseek-chat"
       },
       "apiKey": {
         "label": "API 密钥（{{provider}}）",
         "placeholderOpenai": "sk-...",
         "placeholderAnthropic": "sk-ant-...",
+        "placeholderCustom": "API 密钥",
         "showAriaLabel": "显示 API 密钥",
         "hideAriaLabel": "隐藏 API 密钥",
         "storedNotice": "存储在操作系统钥匙串中（钥匙串 / 凭据管理器 / 密钥服务）。",
         "notConfigured": "未配置提供商密钥。"
+      },
+      "customBaseUrl": {
+        "label": "Base URL",
+        "helperText": "OpenAI 兼容端点，例如 https://ark.cn-beijing.volces.com/api/v3",
+        "placeholder": "https://…",
+        "insecureWarning": "该地址使用 http，你的 API 密钥将以未加密方式发送。"
+      },
+      "testConnection": {
+        "button": "测试连接",
+        "testing": "测试中…",
+        "success": "连接正常",
+        "failed": "连接失败"
       },
       "browserMode": {
         "title": "AI 密钥由桌面应用管理",
@@ -1095,6 +1110,7 @@
       "rate-limit": "已达到速率限制。请稍后重试。",
       "network": "无法连接 AI 提供商。请检查你的网络连接。",
       "model-not-found": "所选模型不可用。",
+      "invalid-config": "提供商未完整配置 —— 请设置 Base URL 和模型。",
       "unknown": "AI 请求失败。"
     }
   },

@@ -452,7 +452,8 @@
       },
       "providers": {
         "openai": "OpenAI",
-        "anthropic": "Anthropic"
+        "anthropic": "Anthropic",
+        "custom": "Custom"
       },
       "credentials": {
         "title": "Credentials",
@@ -460,16 +461,30 @@
       },
       "model": {
         "label": "Model",
-        "helperText": "Default model for provider"
+        "helperText": "Default model for provider",
+        "freeTextHelperText": "Model ID exactly as the endpoint expects, e.g. deepseek-chat"
       },
       "apiKey": {
         "label": "API Key ({{provider}})",
         "placeholderOpenai": "sk-...",
         "placeholderAnthropic": "sk-ant-...",
+        "placeholderCustom": "API key",
         "showAriaLabel": "Show API key",
         "hideAriaLabel": "Hide API key",
         "storedNotice": "Stored in the OS keychain (Keychain / Credential Manager / Secret Service).",
         "notConfigured": "Provider key not configured."
+      },
+      "customBaseUrl": {
+        "label": "Base URL",
+        "helperText": "OpenAI-compatible endpoint, e.g. https://ark.cn-beijing.volces.com/api/v3",
+        "placeholder": "https://…",
+        "insecureWarning": "This address uses http; your API key will be sent unencrypted."
+      },
+      "testConnection": {
+        "button": "Test connection",
+        "testing": "Testing…",
+        "success": "Connection works",
+        "failed": "Connection failed"
       },
       "browserMode": {
         "title": "AI keys are managed in the desktop app",
@@ -1095,6 +1110,7 @@
       "rate-limit": "Rate limit reached. Try again shortly.",
       "network": "Couldn't reach the AI provider. Check your connection.",
       "model-not-found": "The selected model isn't available.",
+      "invalid-config": "The provider isn't fully configured — set a base URL and a model.",
       "unknown": "The AI request failed."
     }
   },
