@@ -6,6 +6,7 @@
  * knowing every singleton that happens to exist.
  */
 import { resetAgentFileWriter } from "./agent-file-writer";
+import { resetAIFetchResolver } from "./ai/fetch-resolver";
 import { resetAIKeyResolver } from "./ai/key-resolver";
 import { resetDataRootResolver } from "./data-root";
 import { resetDomainWriteListeners } from "./domain-write-bus";
@@ -34,4 +35,5 @@ export function resetDeskRuntime(): void {
   resetEditorNotifier();
   resetAgentFileWriter();
   resetAIKeyResolver();
+  resetAIFetchResolver();
 }

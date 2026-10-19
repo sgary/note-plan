@@ -7,6 +7,7 @@ import {
   SettingsSection,
 } from "@/components/ui/settings-section";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Eye, EyeOff } from "lucide-react";
@@ -19,10 +20,33 @@ import { useAIMaintenanceInfo } from "@/hooks/use-ai-maintenance-info";
 import { aiMaintenanceKeys } from "@/lib/query-client";
 import { PROVIDER_MODELS, DEFAULT_MODELS, getDeskService } from "@desk/core";
 import type { AIProviderType, AIUsageRecord } from "@desk/core";
-import { BrowserModeError, getSecret, setSecret } from "@/lib/ai/secrets";
+import { BrowserModeError, getSecret, setSecret, type SecretKeyRef } from "@/lib/ai/secrets";
 import { isTauri } from "@desk/core";
+import { isInsecureEndpoint } from "@/lib/ai/custom-endpoint";
 import { isDomainRemote } from "@/lib/connection";
 import { SmartIndexSection } from "./smart-index-section";
+
+/**
+ * One explicit map per concern, all keyed by provider: adding a provider fails to compile here
+ * rather than silently reusing another provider's label, keychain entry, or placeholder.
+ */
+const PROVIDER_LABEL_KEY: Record<AIProviderType, string> = {
+  openai: "settings.ai.providers.openai",
+  anthropic: "settings.ai.providers.anthropic",
+  custom: "settings.ai.providers.custom",
+};
+
+const KEY_REF_BY_PROVIDER: Record<AIProviderType, SecretKeyRef> = {
+  openai: "ai.openai",
+  anthropic: "ai.anthropic",
+  custom: "ai.custom",
+};
+
+const API_KEY_PLACEHOLDER_KEY: Record<AIProviderType, string> = {
+  openai: "settings.ai.apiKey.placeholderOpenai",
+  anthropic: "settings.ai.apiKey.placeholderAnthropic",
+  custom: "settings.ai.apiKey.placeholderCustom",
+};
 
 function linuxKeyringHint(message: string, t: (key: string) => string): string | null {
   const lower = message.toLowerCase();
@@ -97,17 +121,29 @@ export function AITab() {
   // from the host that owns the data (useAIMaintenanceInfo), not mirrored here. USER state
   // (provider/model selection): shared settings file, so the server engine follows the choice.
   const { aiConsentGiven, setAIConsentGiven } = useAISettingsStore();
-  const { providerType, modelByProvider, setProviderType, setModelForProvider } =
-    useAIMaintenanceSettingsStore();
+  const {
+    providerType,
+    modelByProvider,
+    customBaseURL,
+    customHeaders,
+    customSessionId,
+    setProviderType,
+    setModelForProvider,
+    setCustomBaseURL,
+    setCustomHeaders,
+    setCustomSessionId,
+  } = useAIMaintenanceSettingsStore();
   const queryClient = useQueryClient();
 
   const safeProviderType: AIProviderType =
     providerType in PROVIDER_MODELS ? providerType : "openai";
+  const isCustom = safeProviderType === "custom";
   const activeModel = modelByProvider[safeProviderType] || DEFAULT_MODELS[safeProviderType];
   const modelOptions = PROVIDER_MODELS[safeProviderType];
   const [showApiKey, setShowApiKey] = useState(false);
   const [apiKeyInput, setApiKeyInput] = useState("");
   const [isSavingKey, setIsSavingKey] = useState(false);
+  const [isTesting, setIsTesting] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const browserMode = !isTauri();
 
@@ -116,13 +152,12 @@ export function AITab() {
   const remote = isDomainRemote();
   const { data: maintenanceInfo } = useAIMaintenanceInfo();
 
-  const providerLabel = (p: AIProviderType): string =>
-    p === "openai" ? t("settings.ai.providers.openai") : t("settings.ai.providers.anthropic");
+  const providerLabel = (p: AIProviderType): string => t(PROVIDER_LABEL_KEY[p]);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const keyRef = safeProviderType === "openai" ? "ai.openai" : "ai.anthropic";
+      const keyRef = KEY_REF_BY_PROVIDER[safeProviderType];
       try {
         const key = await getSecret(keyRef);
         if (cancelled) return;
@@ -145,20 +180,34 @@ export function AITab() {
     }
   }, [providerType, safeProviderType, setProviderType]);
 
-  const handleSaveApiKey = async () => {
+  // OpenCode Go rejects requests without a session header. Generate the id once and keep it
+  // stable (a fresh value per request would defeat OpenCode's prompt caching).
+  useEffect(() => {
+    if (isCustom && !customSessionId) {
+      setCustomSessionId(crypto.randomUUID());
+    }
+  }, [isCustom, customSessionId, setCustomSessionId]);
+
+  /** Writes the current input to the Keychain and refreshes the "configured?" readers. */
+  const persistApiKey = async (): Promise<boolean> => {
     const trimmed = apiKeyInput.trim();
-    if (!trimmed) {
+    if (!trimmed) return false;
+    await setSecret(KEY_REF_BY_PROVIDER[safeProviderType], trimmed);
+    // The key now resolves from the Keychain; re-ask the host so every "configured?" reader updates.
+    await queryClient.invalidateQueries({ queryKey: aiMaintenanceKeys.info });
+    setLoadError(null);
+    return true;
+  };
+
+  const handleSaveApiKey = async () => {
+    if (!apiKeyInput.trim()) {
       toast.error(t("errors.settings.apiKeyEmpty"));
       return;
     }
 
     setIsSavingKey(true);
     try {
-      const keyRef = safeProviderType === "openai" ? "ai.openai" : "ai.anthropic";
-      await setSecret(keyRef, trimmed);
-      // The key now resolves from the Keychain; re-ask the host so every "configured?" reader updates.
-      await queryClient.invalidateQueries({ queryKey: aiMaintenanceKeys.info });
-      setLoadError(null);
+      await persistApiKey();
       toast.success(t("toasts.settings.apiKeySaved", { provider: providerLabel(safeProviderType) }));
     } catch (error) {
       const message = String(error);
@@ -170,6 +219,31 @@ export function AITab() {
       );
     } finally {
       setIsSavingKey(false);
+    }
+  };
+
+  const handleTestConnection = async () => {
+    setIsTesting(true);
+    try {
+      // Test what the user sees: persist a pending key first. A save failure (e.g. no keychain
+      // in browser mode) is not fatal here — we still probe with whatever the host already has.
+      if (apiKeyInput.trim()) {
+        try {
+          await persistApiKey();
+        } catch {
+          /* fall through to the probe */
+        }
+      }
+      const result = await getDeskService().testAIConnection();
+      if (result.ok) {
+        toast.success(t("settings.ai.testConnection.success"));
+      } else {
+        toast.error(t("settings.ai.testConnection.failed"), {
+          description: t(`errors.ai.${result.code ?? "unknown"}`),
+        });
+      }
+    } finally {
+      setIsTesting(false);
     }
   };
 
@@ -197,32 +271,81 @@ export function AITab() {
               <SelectContent>
                 <SelectItem value="openai">{t("settings.ai.providers.openai")}</SelectItem>
                 <SelectItem value="anthropic">{t("settings.ai.providers.anthropic")}</SelectItem>
+                <SelectItem value="custom">{t("settings.ai.providers.custom")}</SelectItem>
               </SelectContent>
             </Select>
           </SettingsRow>
+          {isCustom && (
+            <>
+              <SettingsRow
+                label={t("settings.ai.customBaseUrl.label")}
+                description={t("settings.ai.customBaseUrl.helperText")}
+              >
+                <div className="w-full sm:w-[320px] space-y-1">
+                  <Input
+                    value={customBaseURL}
+                    onChange={(event) => setCustomBaseURL(event.target.value)}
+                    placeholder={t("settings.ai.customBaseUrl.placeholder")}
+                    className="bg-background/80 font-mono text-sm"
+                  />
+                  {isInsecureEndpoint(customBaseURL) && (
+                    <p className="text-xs text-amber-600 dark:text-amber-500">
+                      {t("settings.ai.customBaseUrl.insecureWarning")}
+                    </p>
+                  )}
+                </div>
+              </SettingsRow>
+              <SettingsRow
+                label={t("settings.ai.customHeaders.label")}
+                description={t("settings.ai.customHeaders.helperText")}
+              >
+                <Textarea
+                  value={customHeaders}
+                  onChange={(event) => setCustomHeaders(event.target.value)}
+                  placeholder={t("settings.ai.customHeaders.placeholder")}
+                  rows={3}
+                  spellCheck={false}
+                  className="w-full bg-background/80 font-mono text-xs sm:w-[320px]"
+                />
+              </SettingsRow>
+            </>
+          )}
           <SettingsRow
             label={t("settings.ai.model.label")}
-            description={t("settings.ai.model.helperText")}
+            description={
+              isCustom
+                ? t("settings.ai.model.freeTextHelperText")
+                : t("settings.ai.model.helperText")
+            }
           >
-            <Select
-              value={activeModel}
-              onValueChange={(value) => {
-                setModelForProvider(safeProviderType, value);
-                const label = modelOptions.find((model) => model.id === value)?.label ?? value;
-                toast.success(t("toasts.settings.modelSet", { model: label }));
-              }}
-            >
-              <SelectTrigger className="w-full sm:w-[240px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {modelOptions.map((model) => (
-                  <SelectItem key={model.id} value={model.id}>
-                    {model.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {isCustom ? (
+              <Input
+                value={activeModel}
+                onChange={(event) => setModelForProvider("custom", event.target.value)}
+                placeholder="deepseek-chat"
+                className="w-full bg-background/80 font-mono text-sm sm:w-[240px]"
+              />
+            ) : (
+              <Select
+                value={activeModel}
+                onValueChange={(value) => {
+                  setModelForProvider(safeProviderType, value);
+                  const label = modelOptions.find((model) => model.id === value)?.label ?? value;
+                  toast.success(t("toasts.settings.modelSet", { model: label }));
+                }}
+              >
+                <SelectTrigger className="w-full sm:w-[240px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {modelOptions.map((model) => (
+                    <SelectItem key={model.id} value={model.id}>
+                      {model.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </SettingsRow>
         </SettingsGroup>
       </SettingsSection>
@@ -275,11 +398,7 @@ export function AITab() {
                     type={showApiKey ? "text" : "password"}
                     value={apiKeyInput}
                     onChange={(event) => setApiKeyInput(event.target.value)}
-                    placeholder={
-                      safeProviderType === "openai"
-                        ? t("settings.ai.apiKey.placeholderOpenai")
-                        : t("settings.ai.apiKey.placeholderAnthropic")
-                    }
+                    placeholder={t(API_KEY_PLACEHOLDER_KEY[safeProviderType])}
                     className="bg-background/80 pr-10 font-mono text-sm"
                     disabled={browserMode}
                   />
@@ -301,6 +420,16 @@ export function AITab() {
                 </div>
                 <Button onClick={handleSaveApiKey} disabled={isSavingKey || browserMode}>
                   {t("common.buttons.save")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleTestConnection}
+                  disabled={isTesting || browserMode}
+                >
+                  {isTesting
+                    ? t("settings.ai.testConnection.testing")
+                    : t("settings.ai.testConnection.button")}
                 </Button>
               </div>
               {!browserMode &&

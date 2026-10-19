@@ -40,4 +40,9 @@ export type {
   AIKeyRef,
   AIKeyResolver,
 } from "./desk/ai/key-resolver";
+export {
+  setAIFetchResolver,
+  resetAIFetchResolver,
+} from "./desk/ai/fetch-resolver";
+export type { AIFetchResolver } from "./desk/ai/fetch-resolver";
 export { resetDeskRuntime } from "./desk/runtime";

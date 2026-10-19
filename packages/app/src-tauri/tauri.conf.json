@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Desk",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "identifier": "de.svilling.deskmd",
   "plugins": {
     "updater": {
@@ -41,6 +41,9 @@
     "active": true,
     "targets": ["dmg", "app", "nsis", "deb", "rpm", "appimage"],
     "createUpdaterArtifacts": true,
+    "macOS": {
+      "infoPlist": "Info.plist"
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

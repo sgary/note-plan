@@ -16,6 +16,80 @@ mod secrets;
 // Flag to track if close has been confirmed by frontend
 static CLOSE_CONFIRMED: AtomicBool = AtomicBool::new(false);
 
+/// The few menu-bar labels we author ourselves. Everything else in the menu bar is a
+/// `PredefinedMenuItem`, whose text AppKit supplies in the language it resolved for the bundle
+/// (`CFBundleLocalizations` ∩ the user's preferred languages — i.e. the SYSTEM language, not
+/// the app's own Settings → Language, which only drives the web UI via i18next). These labels
+/// therefore follow the system language too, so the bar never reads half translated.
+///
+/// The app menu (the first one) is the product name and stays untranslated, per Apple's HIG.
+struct MenuLabels {
+    file: &'static str,
+    edit: &'static str,
+    window: &'static str,
+    save: &'static str,
+}
+
+/// Map a BCP-47-ish locale (`zh-Hans-CN`, `de-DE`, `en_US`, …) to our menu labels.
+fn menu_labels_for(locale: &str) -> MenuLabels {
+    let language = locale
+        .split(['-', '_'])
+        .next()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+
+    match language.as_str() {
+        "de" => MenuLabels {
+            file: "Ablage",
+            edit: "Bearbeiten",
+            window: "Fenster",
+            save: "Sichern",
+        },
+        "fr" => MenuLabels {
+            file: "Fichier",
+            edit: "Édition",
+            window: "Fenêtre",
+            save: "Enregistrer",
+        },
+        "zh" => MenuLabels {
+            file: "文件",
+            edit: "编辑",
+            window: "窗口",
+            save: "保存",
+        },
+        _ => MenuLabels {
+            file: "File",
+            edit: "Edit",
+            window: "Window",
+            save: "Save",
+        },
+    }
+}
+
+fn menu_labels() -> MenuLabels {
+    menu_labels_for(&sys_locale::get_locale().unwrap_or_default())
+}
+
+#[cfg(test)]
+mod menu_label_tests {
+    use super::menu_labels_for;
+
+    #[test]
+    fn maps_region_and_script_variants() {
+        assert_eq!(menu_labels_for("zh-Hans-CN").save, "保存");
+        assert_eq!(menu_labels_for("zh_CN").file, "文件");
+        assert_eq!(menu_labels_for("de-DE").edit, "Bearbeiten");
+        assert_eq!(menu_labels_for("fr-FR").window, "Fenêtre");
+        assert_eq!(menu_labels_for("en-US").file, "File");
+    }
+
+    #[test]
+    fn falls_back_to_english() {
+        assert_eq!(menu_labels_for("").save, "Save");
+        assert_eq!(menu_labels_for("sv-SE").edit, "Edit");
+    }
+}
+
 /// Confirm that the window can be closed (called by frontend after save/discard)
 #[tauri::command]
 fn confirm_close(window: tauri::Window) {
@@ -478,13 +552,15 @@ pub fn run() {
             }
 
             // Create custom menu with Save item that forwards to frontend
-            let save_item = MenuItem::with_id(app, "save", "Save", true, Some("CmdOrCtrl+S"))?;
+            let labels = menu_labels();
+            let save_item =
+                MenuItem::with_id(app, "save", labels.save, true, Some("CmdOrCtrl+S"))?;
 
-            let file_menu = Submenu::with_items(app, "File", true, &[&save_item])?;
+            let file_menu = Submenu::with_items(app, labels.file, true, &[&save_item])?;
 
             let edit_menu = Submenu::with_items(
                 app,
-                "Edit",
+                labels.edit,
                 true,
                 &[
                     &PredefinedMenuItem::undo(app, None)?,
@@ -499,7 +575,7 @@ pub fn run() {
 
             let window_menu = Submenu::with_items(
                 app,
-                "Window",
+                labels.window,
                 true,
                 &[
                     &PredefinedMenuItem::minimize(app, None)?,
@@ -647,3 +723,4 @@ mod atomic_write_tests {
         assert_eq!(data_root::get_data_root(), first.path());
     }
 }
+

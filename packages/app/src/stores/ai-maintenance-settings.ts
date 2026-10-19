@@ -19,10 +19,19 @@ interface AIMaintenanceSettingsState {
   providerType: AIProviderType;
   /** Model ID per provider (empty = provider default). */
   modelByProvider: Record<string, string>;
+  /** Base URL for the custom (OpenAI-compatible) provider. Not secret. */
+  customBaseURL: string;
+  /** Extra request headers for the custom provider, as free-form `Name: value` lines. Not secret. */
+  customHeaders: string;
+  /** Stable session id sent as `x-opencode-session` to OpenCode endpoints. Not secret. */
+  customSessionId: string;
   setAutoSummarizeOnSave: (enabled: boolean) => void;
   setSummaryDetail: (detail: SummaryDetail) => void;
   setProviderType: (type: AIProviderType) => void;
   setModelForProvider: (provider: AIProviderType, model: string) => void;
+  setCustomBaseURL: (baseURL: string) => void;
+  setCustomHeaders: (headers: string) => void;
+  setCustomSessionId: (sessionId: string) => void;
 }
 
 export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>()(
@@ -37,6 +46,9 @@ export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>(
         set((state) => ({
           modelByProvider: { ...state.modelByProvider, [provider]: model },
         })),
+      setCustomBaseURL: (baseURL) => set({ customBaseURL: baseURL }),
+      setCustomHeaders: (customHeaders) => set({ customHeaders }),
+      setCustomSessionId: (customSessionId) => set({ customSessionId }),
     }),
     {
       name: "desk-ai-maintenance",
@@ -46,6 +58,9 @@ export const useAIMaintenanceSettingsStore = create<AIMaintenanceSettingsState>(
         summaryDetail: state.summaryDetail,
         providerType: state.providerType,
         modelByProvider: state.modelByProvider,
+        customBaseURL: state.customBaseURL,
+        customHeaders: state.customHeaders,
+        customSessionId: state.customSessionId,
       }),
     }
   )

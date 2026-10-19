@@ -16,6 +16,10 @@ import type {
 export interface AIServiceConfig {
   providerType: AIProviderType;
   model?: string;
+  /** Only meaningful for the `custom` provider. */
+  baseURL?: string;
+  /** Only meaningful for the `custom` provider. Extra request headers (non-secret). */
+  headers?: Record<string, string>;
   onUsage?: (usage: AIUsage) => void;
 }
 
@@ -61,6 +65,8 @@ export class AIService {
       provider: this.config.providerType,
       apiKey: resolvedKey,
       model: this.config.model,
+      baseURL: this.config.baseURL,
+      headers: this.config.headers,
       systemPrompt: fullPrompt,
       message,
     });

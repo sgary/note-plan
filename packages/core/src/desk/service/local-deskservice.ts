@@ -139,6 +139,7 @@ export const localDeskService: DeskService = {
   removeFromSmartIndex: maintenanceApi.removeIndexEntry,
   clearSmartIndex: maintenanceApi.clearWorkspaceIndex,
   getAIMaintenanceInfo: maintenanceApi.getAIMaintenanceInfo,
+  testAIConnection: maintenanceApi.testAIConnection,
 
   // .aiignore management (per-workspace AI exclusions)
   setAIInclusion: aiignoreApi.setAIInclusion,

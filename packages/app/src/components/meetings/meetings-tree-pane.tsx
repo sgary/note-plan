@@ -15,7 +15,7 @@ import { ListPane, ListRow, SectionLabel, type ListPaneSortOption } from "@/comp
 import { cn } from "@/lib/utils";
 import { AIBadge } from "@/components/ui/ai-badge";
 import { matchesSearch } from "@/lib/tree-count";
-import { safeFormat } from "@/lib/i18n/format";
+import { formatLocaleDate } from "@/lib/i18n/format";
 import { filterMeetingsByScope, type MeetingScope } from "@/lib/meeting-scope";
 import type { Meeting } from "@desk/core/types";
 import {
@@ -63,7 +63,7 @@ function groupByMonth(meetings: Meeting[], dir: "asc" | "desc", noDateLabel: str
   }
   const result = Array.from(groups.entries()).map(([key, ms]) => ({
     key,
-    label: safeFormat(ms[0].date, "MMMM yyyy"),
+    label: formatLocaleDate(ms[0].date, { month: "long", year: "numeric" }),
     meetings: ms,
   }));
   if (undated.length > 0) {
@@ -264,7 +264,7 @@ export function MeetingsTreePane({
                         {meeting.author === "ai" && <AIBadge />}
                       </span>
                     }
-                    meta={safeFormat(meeting.date, "MMM d")}
+                    meta={formatLocaleDate(meeting.date, { month: "short", day: "numeric" })}
                     secondLine={showSecondLine ? projectName : undefined}
                     menuItems={
                       <DropdownMenuItem

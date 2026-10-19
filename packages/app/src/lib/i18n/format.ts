@@ -1,5 +1,4 @@
 import i18next from "i18next";
-import { format, parseISO } from "date-fns";
 
 const LOCALE_MAP: Record<string, string> = {
   en: "en-US",
@@ -8,8 +7,19 @@ const LOCALE_MAP: Record<string, string> = {
   "zh-CN": "zh-CN",
 };
 
-function currentLocale(): string {
-  return LOCALE_MAP[i18next.language] ?? i18next.language ?? "en-US";
+/**
+ * The BCP-47 tag for a language code. Every user-facing date must go through this (or through
+ * `dateLocaleFor` for date-fns consumers): date-fns patterns are not locale-aware on their own,
+ * and only Intl orders date parts correctly per language ("1月5日", not "5 1月").
+ */
+export function localeTagFor(language: string | undefined | null): string {
+  if (!language) return "en-US";
+  return LOCALE_MAP[language] ?? language;
+}
+
+/** The tag for the language i18next is currently using. */
+export function currentLocale(): string {
+  return localeTagFor(i18next.language);
 }
 
 /**
@@ -25,28 +35,20 @@ function toDate(value: string | Date): Date {
   return new Date(value);
 }
 
+/**
+ * Format an ISO date with Intl options, in the UI language. Yields "" for a missing value and
+ * echoes the input back when it cannot be parsed, so list rows can safely pass `row.date`.
+ */
 export function formatLocaleDate(
-  value: string | Date,
+  value: string | Date | undefined,
   opts: Intl.DateTimeFormatOptions,
 ): string {
+  if (value === undefined || value === null || value === "") return "";
   const d = toDate(value);
   if (Number.isNaN(d.getTime())) {
     return typeof value === "string" ? value : "";
   }
   return new Intl.DateTimeFormat(currentLocale(), opts).format(d);
-}
-
-/**
- * Format an optional ISO date with a date-fns pattern, yielding "" for a missing
- * or unparseable value. For the short inline dates in list rows ("MMM d").
- */
-export function safeFormat(iso: string | undefined, pattern: string): string {
-  if (!iso) return "";
-  try {
-    return format(parseISO(iso), pattern);
-  } catch {
-    return "";
-  }
 }
 
 /**

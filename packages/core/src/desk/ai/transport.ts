@@ -6,15 +6,30 @@
  */
 import { generateText } from "ai";
 import { getProviderDefinition } from "./provider-registry";
+import { getAIFetchResolver } from "./fetch-resolver";
 import { classifyAIError } from "./errors";
+import type { ProviderModelRequest } from "./provider-registry";
 import type { AIProviderType, AIUsage } from "./types";
 
 export interface ChatOptions {
   provider: AIProviderType;
   apiKey: string;
   model?: string;
+  /** Only read for the `custom` provider. */
+  baseURL?: string;
+  /** Only read for the `custom` provider. */
+  headers?: Record<string, string>;
   systemPrompt: string;
   message: string;
+}
+
+/**
+ * Only the OpenAI-compatible `custom` provider needs the injected fetch and a base URL:
+ * its endpoint is user-supplied, so the desktop app's CSP can't enumerate it. OpenAI and
+ * Anthropic keep the global fetch — no behavior change for them.
+ */
+export function providerNeedsFetch(provider: AIProviderType): boolean {
+  return provider === "custom";
 }
 
 /**
@@ -25,7 +40,10 @@ export interface ChatOptions {
 const CALL_TIMEOUT_MS = 60_000;
 
 export async function runChat(opts: ChatOptions): Promise<{ message: string; usage?: AIUsage }> {
-  const model = getProviderDefinition(opts.provider).createModel(opts.apiKey, opts.model);
+  const request: ProviderModelRequest | undefined = providerNeedsFetch(opts.provider)
+    ? { baseURL: opts.baseURL, fetch: getAIFetchResolver()(), headers: opts.headers }
+    : undefined;
+  const model = getProviderDefinition(opts.provider).createModel(opts.apiKey, opts.model, request);
   try {
     const { text, usage } = await generateText({
       model,

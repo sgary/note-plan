@@ -11,7 +11,7 @@
  * every caller already handles (metadata-only indexing, disabled refresh buttons).
  */
 
-export type AIKeyRef = "ai.openai" | "ai.anthropic";
+export type AIKeyRef = "ai.openai" | "ai.anthropic" | "ai.custom";
 
 export type AIKeyResolver = (keyRef: AIKeyRef) => Promise<string | null>;
 
