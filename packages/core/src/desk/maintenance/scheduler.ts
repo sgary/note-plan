@@ -23,7 +23,8 @@
  */
 import { onDomainWrite, type DomainWriteEvent } from "../domain-write-bus";
 import { getItemTypeFromPath, getWorkspaceIdFromPath } from "../path-identity";
-import { getAIKeyResolver } from "../ai/key-resolver";
+import { getAIMaintenanceSettings } from "./config";
+import { isProviderConfigured } from "./provider-eligibility";
 import type { AIProviderType } from "../ai/types";
 import { PROVIDER_REGISTRY } from "../ai/provider-registry";
 import { updateIndexForFile } from "./index-updater";
@@ -201,12 +202,11 @@ export interface AIMaintenanceInfo {
  * method, so remote clients see the SERVER's keys and engine, not their own).
  */
 export async function getAIMaintenanceInfo(): Promise<AIMaintenanceInfo> {
-  const resolver = getAIKeyResolver();
+  const settings = await getAIMaintenanceSettings();
   const entries = await Promise.all(
-    (Object.keys(PROVIDER_REGISTRY) as AIProviderType[]).map(async (provider) => {
-      const key = await resolver(PROVIDER_REGISTRY[provider].keyRef);
-      return [provider, !!key] as const;
-    }),
+    (Object.keys(PROVIDER_REGISTRY) as AIProviderType[]).map(
+      async (provider) => [provider, await isProviderConfigured(provider, settings)] as const,
+    ),
   );
   return {
     providerConfigured: Object.fromEntries(entries) as Record<AIProviderType, boolean>,

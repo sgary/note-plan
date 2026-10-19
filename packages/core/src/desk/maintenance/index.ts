@@ -19,3 +19,4 @@ export {
   type MaintenanceEngineOptions,
   type AIMaintenanceInfo,
 } from "./scheduler";
+export { isProviderConfigured, isProviderUsable } from "./provider-eligibility";

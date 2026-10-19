@@ -14,10 +14,9 @@ import { getAllDocsForWorkspace } from "../content-tree";
 import { getTasks } from "../tasks";
 import { getMeetings } from "../meetings";
 import { getWorkspace } from "../workspaces";
-import { getAIKeyResolver } from "../ai/key-resolver";
-import { getProviderDefinition } from "../ai/provider-registry";
 import { classifyAIError } from "../ai/errors";
 import { SYSTEM_PROMPTS } from "../ai/prompts";
+import { isProviderUsable } from "./provider-eligibility";
 import {
   getAIMaintenanceSettings,
   createMaintenanceService,
@@ -112,11 +111,11 @@ export async function rebuildWorkspaceIndex(
     allEntries.push(entry);
   }
 
-  // Only summarize when a key resolves; otherwise ship the complete metadata catalog as-is.
+  // Only summarize when the provider is actually usable; otherwise ship the complete
+  // metadata catalog as-is.
   const settings = await getAIMaintenanceSettings();
-  const key = await getAIKeyResolver()(getProviderDefinition(settings.providerType).keyRef);
 
-  if (key && needsSummarization.length > 0) {
+  if ((await isProviderUsable(settings)) && needsSummarization.length > 0) {
     // Fetch raw content and strip frontmatter (extractBody) so the AI summarizes body
     // text, not YAML. Three bulk reads, keyed by absolute filePath to match catalog entries.
     const [docs, tasks, meetings] = await Promise.all([

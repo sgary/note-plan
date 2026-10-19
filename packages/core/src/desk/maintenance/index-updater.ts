@@ -21,10 +21,9 @@ import type { IndexEntry } from "../catalog/types";
 import { getAIInclusion } from "../aiignore";
 import { SPECIAL_DIRS, WORKSPACE_LEVEL_PROJECT_ID } from "../constants";
 import { getItemTypeFromPath, getWorkspaceIdFromPath, getProjectIdFromPath } from "../path-identity";
-import { getAIKeyResolver } from "../ai/key-resolver";
-import { getProviderDefinition } from "../ai/provider-registry";
 import { SYSTEM_PROMPTS } from "../ai/prompts";
 import { getAIMaintenanceSettings, createMaintenanceService } from "./config";
+import { isProviderUsable } from "./provider-eligibility";
 import { getSummaryPreviewLength } from "./types";
 import { readWorkspaceIndex, upsertIndexEntry, removeIndexEntry } from "./index-store-io";
 
@@ -68,9 +67,8 @@ export async function updateIndexForFile(
     const hashChanged = existingEntry ? existingEntry.contentHash !== contentHash : true;
 
     const settings = await getAIMaintenanceSettings();
-    const key = await getAIKeyResolver()(getProviderDefinition(settings.providerType).keyRef);
     const shouldGenerateSummary =
-      settings.autoSummarizeOnSave && hashChanged && !!key && (await canRunAI());
+      settings.autoSummarizeOnSave && hashChanged && (await isProviderUsable(settings)) && (await canRunAI());
 
     // Keep the previous summary by default (may be undefined). Keyless updates carry
     // metadata only — never a fabricated summary.
